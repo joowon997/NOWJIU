@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layouts/default}">
+		
+	<section layout:fragment="contents">
+		<div class="mt-5 d-flex justify-content-center">
+			<article class="login mr-5">
+				<h1>로그인</h1>
+				<input type="text" placeholder="ID OR Email" class="form-control" id="inputLoginId">
+				<input type="password" placeholder="password" class="form-control mt-3" id="inputLoginPassword">
+				<button type="submit" class="btn btn-dark btn-block my-3" id="loginBtn">Login</button>
+				<div class="text-center">
+					<span>아이디를 잊으셨나요??</span><a class="ml-5" href="#">아이디 찾기</a>
+				</div>
+				<button type="submit" class="btn btn-dark btn-block my-3" id="loginBtn">Login</button>
+			</article>
+			<aside class="login ml-1">
+				<h1>카카오톡 로그인</h1>
+				<span>간편한 회원가입으로 쉽게 본 사이트를 이용할 수 있습니다.<br> 카카오톡으로 쉽게 시작하기</span>
+			</aside>
+		</div>
+	</section>
+</html>
