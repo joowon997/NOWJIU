@@ -1,5 +1,7 @@
 package com.nowjoo.nowjiu.user.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.nowjoo.nowjiu.common.hash.HashingEncoder;
@@ -18,7 +20,33 @@ public class UserService {
 		this.userRepository = userRepository;
 		this.encoder = encoder;
 	}
+	// 로그인
+	public User getUser(
+			String loginId
+			, String password) {
+		
+		String encryptPassword = encoder.encode(password);
+		
+		Optional<User> optionalUser = userRepository.findByloginIdAndPassword(loginId, encryptPassword);
+		User user = optionalUser.orElse(null);
+		
+		return user;
+	}
 	
+	// 중복확인
+	public boolean isDuplicateId(String loginId) {
+		
+		Optional<User> optionalUser = userRepository.findByloginId(loginId);
+		User user = optionalUser.orElse(null);
+		
+		if(user != null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	// 회원가입
 	public User addUser(
 			String loginId
 			, String password

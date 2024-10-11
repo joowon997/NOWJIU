@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 	<header>
 			<div class="header-top d-flex align-items-end justify-content-around">
-				<h1 class="logo">NOWJIU</h1>
+				<h1 class="logo font-weight-bold" id="logoBtn">NOWJIU</h1>
 				<div class="search-bar">
 					<div class="input-group">
 						<input type="text" class="form-control">
@@ -12,13 +13,17 @@
 						</div>
 					</div>
 				</div>
-				<h1>
-					<i class="bi bi-box-arrow-in-left"></i>
-					<i class="bi bi-person"></i>
-					<i class="bi bi-bag"></i>
-				</h1>
+				<div>
+					<span class="small" th:if="${session.userId != null}" th:utext="|<b>${session.userName}</b> 회원님 환영합니다.|">사용자이름</span>
+					<h1>
+						<a href="/nowjiu/logout"><i th:if="${session.userId != null}" class="bi bi-box-arrow-in-left text-dark"></i></a>
+						<a href="/nowjiu/login"><i th:unless="${session.userId != null}" class="bi bi-box-arrow-in-left text-dark"></i></a>
+						<i class="bi bi-person"></i>
+						<i class="bi bi-bag"></i>
+					</h1>
+				</div>
 			</div>
-			<div class="menu d-flex align-items-center justify-content-between mt-2">
+			<div class="menu d-flex align-items-center justify-content-between font-weight-bold mt-2">
 				<nav>
 		            <ul class="nav nav-fill">
 		                <li class="nav-item"><a class="nav-link text-dark" href="#">ABOUT</a></li>
@@ -33,3 +38,11 @@
 	            <span>COMMINITY</span>
             </div>
 		</header>
+		<script>
+			$(document).ready(function(){
+				$("#logoBtn").on("click", function(){
+					location.href = "/nowjiu/main"	
+				});
+			});
+		</script>
+</html>

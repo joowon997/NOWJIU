@@ -9,11 +9,13 @@
 				<h1 class="text-center">회원가입</h1>
 				<div>아이디</div>
 				<div class="input-group mb-2">
-				  <input type="text" class="form-control" placeholder="아이디" id="inputId">
-				  <div class="input-group-append">
-				    <button class="btn btn-outline-secondary" type="button" id="button-addon2">중복확인</button>
-				  </div>
+					<input type="text" class="form-control" placeholder="아이디" id="inputId">
+					<div class="input-group-append">
+				    	<button class="btn btn-outline-secondary" type="button" id="isDuplicateBtn">중복확인</button>
+					</div>
 				</div>
+				<div class="small text-success d-none" id="availableText">사용 가능한 ID 입니다</div>
+				<div class="small text-danger d-none" id="duplicateText">중복된 ID 입니다</div>
 				<div>비밀번호</div>
 				<input type="password" placeholder="비밀번호" class="form-control mb-2" id="inputPassword">
 				<div>비밀번호 확인</div>
@@ -104,6 +106,54 @@
 		        }).open();
 			});
 			
+			// 중복확인 여부
+			var checkDuplicate = false;
+			// 중복여부
+			var isDuplicateId = true;
+			
+			$("#inputId").on("input",function(){
+				// 중복확인 기능 초기화
+				checkDuplicate = false;
+				isDuplicateId = true;
+				
+				$("#availableText").addClass("d-none");
+				$("#duplicateText").addClass("d-none");
+			});
+			
+			// 중복확인 버튼
+			$("#isDuplicateBtn").on("click", function(){
+				// 변수 설정
+				let id = $("#inputId").val();
+				
+				// 유효성 검사
+				if(id.length <4){
+		            alert("아이디를 4글자 이상 입력하세요.")
+		            return;
+		        }
+				
+				//API 통신
+				$.ajax({
+					type: "get"
+					, url : "/api/duplicate-id"
+					, data :{"loginId":id}
+					, success:function(data){
+						checkDuplicate = true;
+						isDuplicateId = data.isDuplicate;
+						if(data.isDuplicate){
+							$("#availableText").addClass("d-none");
+							$("#duplicateText").removeClass("d-none");
+						}else{
+							$("#availableText").removeClass("d-none");
+							$("#duplicateText").addClass("d-none");
+						}
+					}
+					, error:function(){
+						alert("중복확인 에러!!");
+					}
+				});
+				
+			});
+			
 			// 회원가입 기능
 			$("#joinBtn").on("click", function(){
 				
@@ -124,6 +174,17 @@
 		            alert("아이디를 4글자 이상 입력하세요.")
 		            return;
 		        }
+				// 중복진행을 진행하지 않은 경우
+				if(!checkDuplicate){
+					alert("아이디 중복확인을 해주세요");
+					return;
+				}
+
+				// 아이디가 중복된 경우
+				if(isDuplicateId){
+					alert("아이디 중복확인을 해주세요");
+					return;
+				}
 				// 비밀번호
 				if(password.length <4){
 		            alert("비밀번호를 4글자 이상 입력하세요.")
@@ -149,6 +210,13 @@
 					alert("우편번호를 입력하세요");
 					return;
 				}
+				// 우편번호 숫자만
+				let isNum = /[0-9]/;
+				if(isNum.test(zipCode)==false){
+					alert("우편번호를 확인해주세요");
+					return;
+				}
+				
 				// 기본주소
 				if(address == ""){
 					alert("기본주소를 입력하세요");
@@ -168,13 +236,32 @@
 					alert("전화번호를 입력하세요");
 					return;
 				}
+				// 전화번호
+				if($("#phone2").val().length != 4 && $("#phone2").val().length != 3){
+					alert("전화번호를 확인해주세요");
+					return;
+				}
+				if($("#phone3").val().length != 4){
+					alert("전화번호를 확인해주세요");
+					return;
+				}
+				// 전화번호 숫자만
+				if(isNum.test($("#phone2").val())==false){
+					alert("전화번호 숫자만 입력하세요");
+					return;
+				}
+				if(isNum.test($("#phone3").val())==false){
+					alert("전화번호 숫자만 입력하세요");
+					return;
+				}
+				
 				// 이메일
 				if(email == ""){
 					alert("이메일을 입력하세요");
 					return;
 				}
-				let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-				if(exptext.test(email)==false){
+				let isEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+				if(isEmail.test(email)==false){
 					//이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우			
 					alert("이메일형식이 올바르지 않습니다.");
 					return false;
