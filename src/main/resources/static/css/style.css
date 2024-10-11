@@ -62,6 +62,22 @@ header{
 	height: 600px;
 }
 
+.review-card-img{
+	width : 320px;
+	height : 320px;
+	margin: 0 auto;
+}
+
+.review-card-text{
+	width : 320px;
+	height : 120px;
+}
+
+.review-card-goods{
+	width : 320px;
+	height : 80px;
+}
+
 footer{
 	height: 150px;
 }
