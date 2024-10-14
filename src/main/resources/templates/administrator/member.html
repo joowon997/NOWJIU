@@ -1,0 +1,42 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layouts/administrator}">
+		
+	<section layout:fragment="contents">
+		<h1 class="text-center mt-3">회원 관리</h1>
+		<article class="mt-1">
+			<div class="list">
+				<table class="table text-center mt-4">
+					<thead>
+						<tr>
+							<th>NO</th>
+							<th>ID</th>
+							<th>이메일</th>
+							<th>이름</th>
+							<th>전화번호</th>
+							<th>삭제</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>155</td>
+							<td>kong</td>
+							<td>kong@gmail.com</td>
+							<td>콩이</td>
+							<td>010-1234-4567</td>
+							<td><button class="btn btn-danger">삭제</button></td>
+						</tr>
+						<tr>
+							<td>155</td>
+							<td>kong</td>
+							<td>kong@gmail.com</td>
+							<td>콩이</td>
+							<td>010-1234-4567</td>
+							<td><button class="btn btn-danger">삭제</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</article>
+	</section>
+</html>

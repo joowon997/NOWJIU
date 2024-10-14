@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<header>
+			<div class="header-top d-flex align-items-end justify-content-around">
+				<h1 class="logo font-weight-bold" id="logoBtn">NOWJIU</h1>
+				<div class="search-bar">
+				</div>
+				<div>
+					<span class="small" th:if="${session.userId != null}" th:utext="|<b>${session.userName}</b> 회원님 환영합니다.|">사용자이름</span>
+					<h1>
+						<a href="/nowjiu/logout"><i th:if="${session.userId != null}" class="bi bi-box-arrow-in-left text-dark"></i></a>
+						<a href="/nowjiu/login"><i th:unless="${session.userId != null}" class="bi bi-box-arrow-in-left text-dark"></i></a>
+						<i class="bi bi-person"></i>
+						<i class="bi bi-bag"></i>
+					</h1>
+				</div>
+			</div>
+            <nav class="menu bg-secondary mt-3">
+	            <ul class="nav">
+	                <li class="nav-item"><a class="administrator-nav-link mx-4" href="#">회원관리</a></li>
+	                <li class="nav-item"><a class="administrator-nav-link mx-4" href="#">상품관리</a></li>
+	                <li class="nav-item"><a class="administrator-nav-link mx-4" href="#">주문관리</a></li>
+	                <li class="nav-item"><a class="administrator-nav-link mx-4" href="#">리뷰관리</a></li>
+	                <li class="nav-item"><a class="administrator-nav-link mx-4" href="#">자유게시판 관리</a></li>
+	            </ul>
+	        </nav>
+		</header>
+</html>

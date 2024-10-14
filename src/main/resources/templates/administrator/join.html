@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layouts/default}">
+		
+	<section layout:fragment="contents">
+		<article class="join mt-5 d-flex justify-content-center">
+			<div class="col-6">
+				<h1 class="text-center">관리자 회원가입</h1>
+				<div>아이디</div>
+				<div class="input-group mb-2">
+					<input type="text" class="form-control" placeholder="아이디" id="inputId">
+					<div class="input-group-append">
+				    	<button class="btn btn-outline-secondary" type="button" id="isDuplicateBtn">중복확인</button>
+					</div>
+				</div>
+				<div class="small text-success d-none" id="availableText">사용 가능한 ID 입니다</div>
+				<div class="small text-danger d-none" id="duplicateText">중복된 ID 입니다</div>
+				<div>비밀번호</div>
+				<input type="password" placeholder="비밀번호" class="form-control mb-2" id="inputPassword">
+				<div>비밀번호 확인</div>
+				<input type="password" placeholder="비밀번호 확인" class="form-control mb-2" id="inputPasswordConfirm">
+				<div>이름</div>
+				<input type="text" placeholder="이름" class="form-control mb-2" id="inputName">
+				<button type="button" class="btn btn-dark btn-block mt-3" id="joinBtn">회원가입</button>
+			</div>
+		</article>
+	</section>
+	
+</html>

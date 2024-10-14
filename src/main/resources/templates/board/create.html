@@ -1,0 +1,40 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layouts/default}">
+		
+	<section layout:fragment="contents">
+		<h1 class="text-center mt-5">자유게시판 작성</h1>
+		<article class="mt-4 d-flex justify-content-center">
+			<div class="col-9">
+				<div>
+					<div class="border-secondary border-top border-bottom mt-4">
+						<div class="d-flex border-secondary border-top">
+							<h5 class="review-create-cartegori mx-3 mt-2">제목</h5>
+							<div class="border-left border-secondary col-10">
+								<input type="text" class="border-secondary ml-3 my-1 form-control">
+							</div>
+						</div>
+					</div>
+					<div class="d-flex border-secondary border-bottom">
+						<textarea class="from-control col-12 my-2" rows="" cols=""></textarea>
+					</div>
+					<div class="border-secondary border-bottom">
+						<div class="d-flex border-secondary border-bottom">
+							<h5 class="review-create-cartegori mx-3 mt-2">첨부파일</h5>
+							<div class="border-left border-secondary col-10">
+								<button class="border-secondary ml-3 my-1 form-control col-2">파일 선택</button>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex justify-content-between mt-3">
+						<button class="review-create-button btn btn-outline-secondary">목록</button>
+						<div class="d-flex">
+							<button class="review-create-button btn btn-dark mr-3">등록</button>
+							<button class="review-create-button btn btn-outline-secondary">취소</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</section>
+</html>

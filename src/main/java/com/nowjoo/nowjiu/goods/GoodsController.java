@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/nowjiu")
 public class GoodsController {
 
-	@GetMapping("/goods-list")
+	@GetMapping("/goods")
 	public String goodsList(){
 		return "goods/list";
 	}
@@ -16,6 +16,11 @@ public class GoodsController {
 	@GetMapping("/goods-info")
 	public String goodsInfo(){
 		return "goods/info";
+	}
+
+	@GetMapping("/order")
+	public String order(){
+		return "goods/order";
 	}
 
 	@GetMapping("/cart")

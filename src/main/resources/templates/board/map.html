@@ -1,0 +1,21 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layouts/default}">
+		
+	<section layout:fragment="contents">
+		<h1 class="text-center mt-5">주변 도장 찾기</h1>
+		<article class="mt-4 d-flex justify-content-center">
+			<div>
+				<div class="map-search-bar input-group">
+					<input type="text" class="form-control">
+					<div class="input-group-append" >
+						<span class="input-group-text">
+					    	<i class="bi bi-search"></i>
+						</span>
+					</div>
+				</div>
+				<div class="mt-5 bg-info map"></div>
+			</div>
+		</article>
+	</section>
+</html>
