@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" 
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		layout:decorate="~{layouts/default}">
+		layout:decorate="~{layouts/administrator}">
 		
 	<section layout:fragment="contents">
 		<article class="join mt-5 d-flex justify-content-center">
@@ -26,5 +26,124 @@
 			</div>
 		</article>
 	</section>
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			
+			// 중복확인 여부
+			var checkDuplicate = false;
+			// 중복여부
+			var isDuplicateId = true;
+			
+			$("#inputId").on("input",function(){
+				// 중복확인 기능 초기화
+				checkDuplicate = false;
+				isDuplicateId = true;
+				
+				$("#availableText").addClass("d-none");
+				$("#duplicateText").addClass("d-none");
+			});
+			
+			// 중복확인 버튼
+			$("#isDuplicateBtn").on("click", function(){
+				// 변수 설정
+				let id = $("#inputId").val();
+				
+				// 유효성 검사
+				if(id.length <4){
+		            alert("아이디를 4글자 이상 입력하세요.")
+		            return;
+		        }
+				
+				//API 통신
+				$.ajax({
+					type: "get"
+					, url : "/api/administrator/duplicate-id"
+					, data :{"loginId":id}
+					, success:function(data){
+						checkDuplicate = true;
+						isDuplicateId = data.isDuplicate;
+						if(data.isDuplicate){
+							$("#availableText").addClass("d-none");
+							$("#duplicateText").removeClass("d-none");
+						}else{
+							$("#availableText").removeClass("d-none");
+							$("#duplicateText").addClass("d-none");
+						}
+					}
+					, error:function(){
+						alert("중복확인 에러!!");
+					}
+				});
+				
+			});
+			
+			// 회원가입 기능
+			$("#joinBtn").on("click", function(){
+				
+				// 변수 설정
+				let id = $("#inputId").val();
+				let password = $("#inputPassword").val();
+				let passwordConfirm = $("#inputPasswordConfirm").val();
+				let name = $("#inputName").val();
+				
+				// 유효성 검사
+				// 아이디
+				if(id.length <4){
+		            alert("아이디를 4글자 이상 입력하세요.")
+		            return;
+		        }
+				// 중복진행을 진행하지 않은 경우
+				if(!checkDuplicate){
+					alert("아이디 중복확인을 해주세요");
+					return;
+				}
+
+				// 아이디가 중복된 경우
+				if(isDuplicateId){
+					alert("아이디 중복확인을 해주세요");
+					return;
+				}
+				// 비밀번호
+				if(password.length <4){
+		            alert("비밀번호를 4글자 이상 입력하세요.")
+		            return;
+		        }
+		        //비밀번호와 아이디 비교
+		       	if(id == password){
+		            alert("아이디와 동일한 비밀번호를 사용할 수 없습니다.")
+		            return;
+		        }
+				// 비밀번호 확인
+				if(passwordConfirm == ""){
+					alert("비밀번호 확인를 입력하세요");
+					return;
+				}
+				// 비밀번호 일치
+				if(password != passwordConfirm){
+					alert("비밀번호를 일치시켜주세요");
+					return;
+				}
+				// 회원가입 API
+				$.ajax({
+					type: "post"
+					, url : "/api/administrator/join"
+					, data : {"loginId":id
+							, "password" : password	
+							, "name" : name}
+					, success: function(data){
+						if(data.result == "success"){
+							location.href = "/nowjiu/login";
+						}else{
+							alert("회원가입 실패..");
+						}
+					}
+					, error: function(){
+						alert("에러 발생!!");
+					}
+				});
+			});
+			
+		});
+	</script>
 	
 </html>

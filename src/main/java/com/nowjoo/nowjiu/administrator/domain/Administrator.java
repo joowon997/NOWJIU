@@ -1,4 +1,4 @@
-package com.nowjoo.nowjiu.user.domain;
+package com.nowjoo.nowjiu.administrator.domain;
 
 import java.time.LocalDateTime;
 
@@ -20,9 +20,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Table(name="user")
+@Table(name = "administrator")
 @Entity
-public class User {
+public class Administrator {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,18 +32,7 @@ public class User {
 	private String loginId;
 	private String password;
 	private String name;
-	private String email;
-
-	@Column(name = "phoneNumber")
-	private String phoneNumber;
 	
-	@Column(name = "zipCode")
-	private int zipCode;
-	private String address;
-
-	@Column(name = "detaileAddress")
-	private String detaileAddress;
-
 	@Column(name = "createdAt")
 	@CreationTimestamp
 	private LocalDateTime createdAt;

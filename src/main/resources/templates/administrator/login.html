@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layouts/administrator}">
+		
+	<section layout:fragment="contents">
+		<div class="administrator-main col-6 mt-5">
+			<div class="d-flex align-items-center">
+				<h1>로그인</h1>
+				<a class="btn btn-outline-secondary form-control ml-3 col-4" href="/nowjiu/login">사용자 로그인</a>
+			</div>
+			<form id="loginForm">
+				<input type="text" placeholder="아이디" class="form-control" id="inputLoginId">
+				<input type="password" placeholder="비밀번호" class="form-control mt-3" id="inputLoginPassword">
+				<button type="submit" class="btn btn-dark btn-block my-3" id="loginBtn">Login</button>
+			</form>
+			<button type="button" class="btn btn-dark btn-block my-3" id="joinBtn">회원가입</button>
+		</div>
+	</section>
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			
+			// 로그인 기능
+			$("#loginForm").on("submit", function(e){
+				// 기본기능 실행방지
+				e.preventDefault();
+				
+				// 변수 설정
+				let id = $("#inputLoginId").val();
+				let password = $("#inputLoginPassword").val();
+			
+				// 유효성 검사
+				if(id == ""){
+					alert("아이디를 입력하세요");
+					return;
+				}
+				if(password == ""){
+					alert("비밀번호를 입력하세요");
+					return;
+				}
+				
+				// ajax통신
+				$.ajax({
+					type:"post"
+					, url: "/api/administrator/login"
+					, data: {"loginId":id, "password":password}
+					, success: function(data){
+						if(data.result == "success"){
+							location.href = "/nowjiu/administrator/main";
+						}else{
+							alert("아이디 비밀번호를 확인해 주세요");
+						}
+					}
+					, error: function(){
+						alert("로그인 에러");
+					}
+				});
+			});
+			
+			//회원가입 이동
+			$("#joinBtn").on("click", function(){
+				location.href = "/nowjiu/administrator/join";
+			});
+			
+		});
+	</script>
+</html>

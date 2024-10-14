@@ -20,23 +20,30 @@
 			</select>
 			<h5>사이즈</h5>
 			<div class="border-secondary border-bottom border-top">
-				<div class="d-flex border-secondary border-bottom border-top">
-					<select class="create-cartegori form-control mx-3 my-1">
-						<option>A-0</option>
-					</select>
-					<div class="border-left border-secondary d-flex justify-content-between col-11">
-						<div class="d-flex align-items-center">
-							<input type="text" class="form-control mx-3 my-1"><span>개</span>
+				<form class="border-secondary border-bottom border-top">
+					<div class="size-warp">
+						<div class="size-list d-flex">
+							<select class="create-cartegori form-control mx-3 my-1" name="size_array[]">
+								<option>A-0</option>
+								<option>A-1</option>
+								<option>A-2</option>
+								<option>직접입력</option>
+							</select>
+							<div class="administrator-main d-flex justify-content-between">
+								<div class="d-flex align-items-center border-left border-secondary">
+									<input type="text" name="size_count_array[]" class="form-control mx-2 my-1"><span>개</span>
+								</div>
+								<button class="btn btn-success my-1" id="sizeAddBtn">추가</button>
+							</div>
 						</div>
-						<button class="btn btn-success">추가</button>
 					</div>
-				</div>
+				</form>
 			</div>
 			<h5>상세설명</h5>
 			<textarea class="form-control mb-1" rows="" cols=""></textarea>
 			<div class="border-secondary border-top mt-3">
 				<div class="d-flex border-secondary border-bottom border-top">
-					<h5 class="create-cartegori mx-3 mt-2">메인 이미지</h5>
+					<h5 class="create-cartegori mx-3 mt-2">메인이미지</h5>
 					<div class="border-left border-secondary">
 								<input type="file" class="ml-3 my-1">
 					</div>
@@ -77,4 +84,46 @@
 			</div>
 		</article>
 	</section>
+	
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			
+			// 사이즈 추가
+			var sizeCount = 1;
+			const sizeCountmax = 5;
+			
+			$("#sizeAddBtn").on("click", function(e){
+				e.preventDefault(); // 페이지 리로드 방지
+			    if (sizeCount < sizeCountmax) { // 최대 필드 수 체크
+			    	sizeCount++; // 필드 수 증가
+			        // 새 입력 필드 추가
+			        $(".size-warp").append(`
+		        		<div class="size-list d-flex border-secondary border-top">
+							<select class="create-cartegori form-control mx-3 my-1" name="size_array[]">
+								<option>A-0</option>
+								<option>A-1</option>
+								<option>A-2</option>
+								<option>직접입력</option>
+							</select>
+							<div class="d-flex justify-content-between">
+								<div class="d-flex align-items-center border-left border-secondary">
+									<input type="text" name="size_count_array[]" class="form-control mx-2 my-1"><span>개</span>
+								</div>
+							</div>
+							<button class="btn btn-danger size-delete-btn my-1">삭제</button>
+						</div>
+			        `);
+			    }
+			});
+			
+			$(".size-delete-btn").on("click", function(e){
+				e.preventDefault(); // 페이지 리로드 방지
+				$(this).parent('.size-list').remove(); // 필드 제거
+				sizeCount--; // 필드 수 감소				
+			});
+			
+			
+			
+		});
+	</script>
 </html>

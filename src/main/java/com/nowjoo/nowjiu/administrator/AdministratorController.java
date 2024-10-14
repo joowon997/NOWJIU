@@ -12,6 +12,10 @@ public class AdministratorController {
 	public String administratorJoin(){
 		return "administrator/join";
 	}
+	@GetMapping("/login")
+	public String administratorReview(){
+		return "administrator/login";
+	}
 	@GetMapping("/main")
 	public String administratorMain(){
 		return "administrator/main";
@@ -28,12 +32,16 @@ public class AdministratorController {
 	public String administratorGoodsAdd(){
 		return "administrator/addGoods";
 	}
-	@GetMapping("/review")
-	public String administratorReview(){
-		return "administrator/join";
-	}
 	@GetMapping("/board")
 	public String administratorBoard(){
+		return "administrator/join";
+	}
+	@GetMapping("/order")
+	public String administratorOrder(){
+		return "administrator/join";
+	}
+	@GetMapping("/riview")
+	public String administratorRiview(){
 		return "administrator/join";
 	}
 }
