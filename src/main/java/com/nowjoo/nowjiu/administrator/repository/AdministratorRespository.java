@@ -11,4 +11,6 @@ public interface AdministratorRespository extends JpaRepository<Administrator, I
 	public Optional<Administrator> findByloginId(String loginId);
 
 	public Optional<Administrator> findByloginIdAndPassword(String loginId, String password);
+
+	public Optional<Administrator> findByIdAndName(int id, String name);
 }

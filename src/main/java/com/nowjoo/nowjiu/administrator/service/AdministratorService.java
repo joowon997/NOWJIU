@@ -1,26 +1,68 @@
 package com.nowjoo.nowjiu.administrator.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.nowjoo.nowjiu.administrator.domain.Administrator;
+import com.nowjoo.nowjiu.administrator.dto.MemberDto;
 import com.nowjoo.nowjiu.administrator.repository.AdministratorRespository;
 import com.nowjoo.nowjiu.common.hash.HashingEncoder;
+import com.nowjoo.nowjiu.user.domain.User;
+import com.nowjoo.nowjiu.user.service.UserService;
 
 @Service
 public class AdministratorService {
 
 	private AdministratorRespository administratorRespository;
+	private UserService userService;
 	private HashingEncoder encoder;
 	
 	public AdministratorService(
 			AdministratorRespository administratorRespository
+			, UserService userService
 			, HashingEncoder encoder
 			) {
 		this.administratorRespository = administratorRespository;
+		this.userService = userService;
 		this.encoder = encoder;
 	}
+	// 관리자인지 아닌지
+		public boolean isAdministrator(int id, String name){
+			Optional<Administrator> optionalAdministrator = administratorRespository.findByIdAndName(id, name);
+			Administrator administrator = optionalAdministrator.orElse(null);
+			
+			if (administrator != null) {
+				return true;
+			}else {
+				return false;
+			}
+			
+		}
+	
+	// 관리자 회원정보 조회
+		public List<MemberDto> getMemberInfo(){
+			List<User> userList = userService.getUserInfo();
+			
+			List<MemberDto> memberList = new ArrayList<>();
+			for(User user:userList){
+				
+				MemberDto memberDto = MemberDto.builder()
+										.userId(user.getId())
+										.loginId(user.getLoginId())
+										.email(user.getEmail())
+										.name(user.getName())
+										.phoneNumber(user.getPhoneNumber())
+										.build();
+			
+				memberList.add(memberDto);
+			}
+			
+			return memberList;
+		}
+	
 	
 	// 관리자 로그인
 		public Administrator getAdministrator(

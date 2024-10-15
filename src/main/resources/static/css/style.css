@@ -120,6 +120,12 @@
 	margin: 0 auto;
 }
 
+#imgArea{
+	width: 1000px;
+	margin: 0 auto;
+	height: 600px;
+}
+
 footer{
 	height: 150px;
 }

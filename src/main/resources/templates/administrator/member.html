@@ -18,20 +18,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>155</td>
-							<td>kong</td>
-							<td>kong@gmail.com</td>
-							<td>콩이</td>
-							<td>010-1234-4567</td>
-							<td><button class="btn btn-danger">삭제</button></td>
-						</tr>
-						<tr>
-							<td>155</td>
-							<td>kong</td>
-							<td>kong@gmail.com</td>
-							<td>콩이</td>
-							<td>010-1234-4567</td>
+						<tr th:each="userInfo:${userInfo}">
+							<td th:text="${userInfo.userId}">155</td>
+							<td th:text="${userInfo.loginId}">kong</td>
+							<td th:text="${userInfo.email}">kong@gmail.com</td>
+							<td th:text="${userInfo.name}">콩이</td>
+							<td th:text="${userInfo.phoneNumber}">010-1234-4567</td>
 							<td><button class="btn btn-danger">삭제</button></td>
 						</tr>
 					</tbody>
