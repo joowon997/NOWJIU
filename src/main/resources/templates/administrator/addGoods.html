@@ -23,18 +23,19 @@
 				<form class="border-secondary border-bottom border-top">
 					<div class="size-warp">
 						<div class="size-list d-flex">
-							<select class="create-cartegori form-control mx-3 my-1" name="size_array[]">
-								<option>A-0</option>
-								<option>A-1</option>
-								<option>A-2</option>
-								<option>직접입력</option>
-							</select>
-							<div class="administrator-main d-flex justify-content-between">
-								<div class="d-flex align-items-center border-left border-secondary">
-									<input type="text" name="size_count_array[]" class="form-control mx-2 my-1"><span>개</span>
-								</div>
-								<button class="btn btn-success my-1" id="sizeAddBtn">추가</button>
+							<div class="size-select d-flex">
+								<select class="size-select-box create-cartegori form-control mx-3 my-1" name="size_array[]">
+									<option value="A-0">A-0</option>
+									<option value="A-1">A-1</option>
+									<option value="A-2">A-2</option>
+									<option value="direct">직접입력</option>
+								</select>
+								<input type="text" class="size-input create-cartegori form-control mr-3 my-1 d-none">
 							</div>
+							<div class="d-flex align-items-center border-left border-secondary">
+								<input type="text" name="size_count_array[]" class="form-control mx-2 my-1"><span>개</span>
+							</div>
+							<button type="button" class="size-add btn btn-success ml-3 my-1" id="sizeAddBtn">추가</button>
 						</div>
 					</div>
 				</form>
@@ -88,37 +89,51 @@
 	<script layout:fragment="script">
 		$(document).ready(function(){
 			
+			// 사이즈 직접입력
+			$(".size-select").on("change", ".size-select-box",function(){
+				
+				if($(this).val() == "direct") {
+					$(".size-input").removeClass("d-none");
+			      }  else {
+			        $(".size-input").addClass("d-none");
+			      }
+				
+			})
+			
+			
 			// 사이즈 추가
 			var sizeCount = 1;
 			const sizeCountmax = 5;
 			
-			$("#sizeAddBtn").on("click", function(e){
+			$(".size-add").on("click", function(e){
 				e.preventDefault(); // 페이지 리로드 방지
 			    if (sizeCount < sizeCountmax) { // 최대 필드 수 체크
 			    	sizeCount++; // 필드 수 증가
 			        // 새 입력 필드 추가
-			        $(".size-warp").append(`
-		        		<div class="size-list d-flex border-secondary border-top">
-							<select class="create-cartegori form-control mx-3 my-1" name="size_array[]">
-								<option>A-0</option>
-								<option>A-1</option>
-								<option>A-2</option>
-								<option>직접입력</option>
-							</select>
-							<div class="d-flex justify-content-between">
-								<div class="d-flex align-items-center border-left border-secondary">
-									<input type="text" name="size_count_array[]" class="form-control mx-2 my-1"><span>개</span>
-								</div>
-							</div>
-							<button class="btn btn-danger size-delete-btn my-1">삭제</button>
-						</div>
-			        `);
+			        $(".size-warp").append(
+		        		"<div class='size-list d-flex border-secondary border-top'>"
+							+"<div class='size-select d-flex'>"
+			        			+"<select class='size-select-box create-cartegori form-control mx-3 my-1' name='size_array[]'>"
+									+"<option value='A-0'>A-0</option>"
+									+"<option value='A-0'>A-1</option>"
+									+"<option value='A-0'>A-2</option>"
+									+"<option value='direct'>직접입력</option>"
+								+"</select>"
+								+"<input type='text' class='size-input create-cartegori form-control mr-3 my-1 d-none'>"
+							+"</div>"
+							+"<div class='d-flex align-items-center border-left border-secondary'>"
+								+"<input type='text' name='size_count_array[]' class='form-control mx-2 my-1'><span>개</span>"
+							+"</div>"
+							+"<a href='javascript:void(0);'  class='size-delete btn btn-danger ml-3 my-1'>삭제</a>"
+						+"</div>"
+			        );
 			    }
 			});
 			
-			$(".size-delete-btn").on("click", function(e){
+			// 사이즈 삭제
+			$(".size-warp").on("click", ".size-delete", function(e){
 				e.preventDefault(); // 페이지 리로드 방지
-				$(this).parent('.size-list').remove(); // 필드 제거
+			 	$(this).parent(".size-list").remove(); // 필드 제거
 				sizeCount--; // 필드 수 감소				
 			});
 			
