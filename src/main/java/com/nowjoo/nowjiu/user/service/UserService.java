@@ -1,12 +1,10 @@
 package com.nowjoo.nowjiu.user.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.nowjoo.nowjiu.administrator.service.AdministratorService;
 import com.nowjoo.nowjiu.common.hash.HashingEncoder;
 import com.nowjoo.nowjiu.user.domain.User;
 import com.nowjoo.nowjiu.user.repository.UserRepository;

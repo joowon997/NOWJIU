@@ -32,7 +32,7 @@
 					<div class="size-warp">
 						<div class="size-list d-flex">
 							<div class="size-select d-flex">
-								<select class="select-box create-cartegori form-control mx-3 my-1" data-size-select="0">
+								<select id="sizeSelect0" class="select-box create-cartegori form-control mx-3 my-1" data-size-select="0">
 									<option value="A-0">A-0</option>
 									<option value="A-1">A-1</option>
 									<option value="A-2">A-2</option>
@@ -49,49 +49,71 @@
 				</form>
 			</div>
 			<h5>상세설명</h5>
-			<textarea class="form-control mb-1" rows="" cols=""></textarea>
+			<textarea id="descriptionInput" class="form-control mb-1"></textarea>
 			<div class="border-secondary border-top mt-3">
-				<div class="d-flex border-secondary border-bottom border-top">
-					<h5 class="create-cartegori mx-3 mt-2">메인이미지</h5>
-					<div class="border-left border-secondary">
-						<input type="file" class="ml-3 my-1" id="imgInput">
+				<div class="d-flex border-secondary border-bottom border-top align-items-center">
+					<h5 class="create-cartegori text-center mx-3 mt-2">메인이미지</h5>
+					<div class="border-left border-secondary d-flex align-items-center">
+						<input type="file" class="ml-3 my-2" id="mainImgInput">
+						<div id="mainArea"></div>
 					</div>
 				</div>
 			</div>
-			<div class="bg-dark d-none" id="imgArea">
-			</div>
-			<div class="d-flex border-secondary border-bottom">
-				<h5 class="create-cartegori mx-3 mt-2">첨부파일 1</h5>
+			<div class="d-flex border-secondary border-bottom align-items-center">
+					<h5 class="create-cartegori text-center mx-3 mt-2">제품이미지</h5>
 				<div class="border-left border-secondary">
-						<input type="file" class="ml-3 my-1" id="uploadBtn" multiple accept=".jpeg, .jpg, .png">
+					<input type="file" class="ml-3 my-2" name="goodsImg" id="uploadBtn" multiple accept=".jpeg, .jpg, .png">
 				</div>
 			</div>
-			
+				<div id="imgArea"></div>
+				<button type="button" class="btn btn-secondary btn-block my-1" id="addGoodsBtn">추가</button>
 		</article>
 	</section>
 	
 	<script layout:fragment="script">
 		$(document).ready(function(){
 			
-			
-			
-			// 이미지 미리보기
-			$("#imgInput").on("change",function(event){
-				const file = event.target.files;
+			// 다중 제품 이미지
+			$('#goodsImg').on("change",function(event){
+            
+            var files = event.target.files;
+            
+            for(var i= 0; i<files.length; i++){
+            	
+            	let image = new Image();
+            	let ImageTempUrl = window.URL.createObjectURL(file[i]);
+            	
+            	image.id = "goodsImg"+i;
+				image.src = files[i].scr;
+				image.alt = "상품 이미지";
 				
-				var image = new Image();
-				var ImageTempUrl = window.URL.createObjectURL(file[0]);
-	
-				image.src = ImageTempUrl;
-	
 				$("#imgArea").append(image);
+            }
+            
+      	  });
+
+			
+			// 메인 이미지 미리보기
+			$("#mainImgInput").on("change",function(event){
+				$('#mainArea').empty();
+				
+				let file = event.target.files;
+									
+				let image = new Image();
+				let ImageTempUrl = window.URL.createObjectURL(file[0]);
+	
+				image.id = "mainImg";
+				image.src = ImageTempUrl;
+				image.alt = "메인 이미지";
+	
+				$("#mainArea").append(image);
 			});
 			
 			
 			// 카테고리 직접입력
 			$("#brandSelect").on("change",function(){
                 if($(this).val() == "direct") {
-                	$("#brandiInput").removeClass("d-none");
+                	$("#brandInput").removeClass("d-none");
                 }else {
                 	$("#brandInput").addClass("d-none");
                 }
@@ -115,7 +137,7 @@
                 if($(this).val() == "direct" && selectId == drectId) {
                 	$("#sizeDirect" + drectId).removeClass("d-none");
                 }else {
-                    $("#sizeDirect"+drectId).addClass("d-none");
+                    $("#sizeDirect" + drectId).addClass("d-none");
                 }
 			})
 			
@@ -131,7 +153,7 @@
 			        $(".size-warp").append(
 		        		"<div class='size-list d-flex border-secondary border-top'>"
 							+"<div class='size-select d-flex'>"
-								+"<select class='select-box create-cartegori form-control mx-3 my-1' data-size-select='"+sizeCount+"'>"
+								+"<select id='sizeSelect"+ sizeCount +"' class='select-box create-cartegori form-control mx-3 my-1' data-size-select='"+sizeCount+"'>"
 									+"<option value='A-0'>A-0</option>"
 									+"<option value='A-1'>A-1</option>"
 									+"<option value='A-2'>A-2</option>"
