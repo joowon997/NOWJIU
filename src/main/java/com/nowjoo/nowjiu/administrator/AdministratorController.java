@@ -58,14 +58,14 @@ public class AdministratorController {
 	}
 	@GetMapping("/board")
 	public String administratorBoard(){
-		return "administrator/join";
+		return "administrator/board";
 	}
 	@GetMapping("/order")
 	public String administratorOrder(){
-		return "administrator/join";
+		return "administrator/order";
 	}
-	@GetMapping("/riview")
+	@GetMapping("/review")
 	public String administratorRiview(){
-		return "administrator/join";
+		return "administrator/review";
 	}
 }
