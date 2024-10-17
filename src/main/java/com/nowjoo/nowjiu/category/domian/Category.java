@@ -1,4 +1,4 @@
-package com.nowjoo.nowjiu.goods.domain;
+package com.nowjoo.nowjiu.category.domian;
 
 import java.time.LocalDateTime;
 
@@ -20,16 +20,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Table(name="brand")
+@Table(name="category")
 @Entity
-public class Brand {
-
+public class Category {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private String name;
-	private String image;
 	
 	@Column(name = "createdAt")
 	@CreationTimestamp
