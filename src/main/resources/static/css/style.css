@@ -48,6 +48,7 @@
 .best-item{
 	width: 290px;
 	height: 320px;
+	object-fit: cover;
 }
 
 .login{
@@ -123,6 +124,15 @@
 #mainImg{
 	width: 250px;
 	margin: 0 auto;
+}
+
+#goodList{
+	width: 1300px;
+	flex-wrap: wrap;
+	margin: 0 auto;
+}
+.goods-card{
+	width: 300px;
 }
 
 footer{

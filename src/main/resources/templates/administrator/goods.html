@@ -15,26 +15,21 @@
 							<th>NO</th>
 							<th>상품명</th>
 							<th>금액</th>
+							<th>재고</th>
 							<th>삭제</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="align-middle">155</td>
+						<tr th:each="goods:${goodsList}">
+							<td th:text="${goods.goodsId}" class="align-middle">155</td>
 							<td>
-								<img class="mr-3" width="120px" height="120px" alt="선택상품" src="http://w.jiujitsukor.com/web/product/extra/big/202310/4f874ba31bb8f1a28f2e6b363919be08.png">
-								<span>AESTHETIC 셀렉트 주짓수 도복 (2 컬러)</span>
+								<div class="d-flex align-items-center">
+									<img class="mr-3" width="120px" height="120px" alt="선택상품" th:src="${goods.imagePath}">
+									<div class="sm" th:text="${goods.name}">AESTHETIC 셀렉트 주짓수 도복 (2 컬러)</div>
+								</div>
 							</td>
-							<td class="align-middle">18,000원</td>
-							<td class="align-middle"><button class="btn btn-danger">삭제</button></td>
-						</tr>
-						<tr>
-							<td class="align-middle">155</td>
-							<td>
-								<img class="mr-3" width="120px" height="120px" alt="선택상품" src="http://w.jiujitsukor.com/web/product/extra/big/202310/4f874ba31bb8f1a28f2e6b363919be08.png">
-								<span>AESTHETIC 셀렉트 주짓수 도복 (2 컬러)</span>
-							</td>
-							<td class="align-middle">18,000원</td>
+							<td  th:text="|${#numbers.formatInteger(goods.price, 3, 'COMMA')}원|" class="align-middle">18,000원</td>
+							<td class="align-middle"><a class="btn btn-success" href="/nowjiu/administrator/goods-inventory">추가</a></td>
 							<td class="align-middle"><button class="btn btn-danger">삭제</button></td>
 						</tr>
 					</tbody>
@@ -42,4 +37,11 @@
 			</div>
 		</article>
 	</section>
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			var money = $('.money').text();
+			var money2 = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('.money').text(money2);
+		})
+	</script>
 </html>

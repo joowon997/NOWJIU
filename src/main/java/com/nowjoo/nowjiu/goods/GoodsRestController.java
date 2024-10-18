@@ -37,11 +37,11 @@ public class GoodsRestController {
 			){
 		int userId = (Integer)session.getAttribute("userId");
 		
-		Goods goods = goodsService.insertGoods(userId, name, price, brand, category, description, file);
+		boolean addgoods = goodsService.insertGoods(userId, name, price, brand, category, description, file);
 		
 		Map<String, String> resultMap = new HashMap<>();
 		
-		if (goods != null) {
+		if (addgoods) {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");

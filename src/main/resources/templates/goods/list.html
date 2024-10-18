@@ -15,168 +15,19 @@
 					<option>높은가격</option>
 				</select>
 			</div>
-			<div class="d-flex justify-content-between mb-2">
+			<div id="goodList" class="d-flex justify-content-between mb-2">
 				<!-- 상품카드 -->
-				<div>
+				<div class="goods-card mx-2" th:each="goods:${goodsList}">
 					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
+						<img class="best-item" alt="상품" th:src="${goods.image}">
 					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
+					<div>
+						<div th:text="${goods.name}" class="sm">디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)</div>
+						<div th:text="|${#numbers.formatInteger(goods.price, 3, 'COMMA')}원|">172,000원</div>
 					</div>
 				</div>
 				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-			</div>
-			<div class="d-flex justify-content-between mb-2">
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-			</div>
-			<div class="d-flex justify-content-between mb-2">
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-				<!-- 상품카드 -->
-				<div>
-					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" src="https://jiujitsukor.com/web/product/extra/big/202408/43fd8d19f59ea383e1ee55a04400b031.jpg">
-					</div>
-					<div class="d-flex justify-content-center">
-						<span class="col-10 p-0">
-							디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)<br>
-							172,000원
-						</span>	
-					</div>
-				</div>
-				<!-- /상품카드 -->
-			</div>
+			</div>	
 			<div class="text-center">1 2 3 4 5</div>
 		</article>
 	</section>

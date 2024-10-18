@@ -1,5 +1,8 @@
 package com.nowjoo.nowjiu.goods.serviece;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +15,8 @@ import com.nowjoo.nowjiu.category.service.CategoryService;
 import com.nowjoo.nowjiu.common.FileManager;
 import com.nowjoo.nowjiu.goods.domain.Goods;
 import com.nowjoo.nowjiu.goods.respository.GoodsRepository;
+import com.nowjoo.nowjiu.inventory.domain.Inventory;
+import com.nowjoo.nowjiu.inventory.service.InventoryService;
 
 @Service
 public class GoodsService {
@@ -24,13 +29,25 @@ public class GoodsService {
 			GoodsRepository goodsRepository
 			, BrandService brandService
 			, CategoryService categoryService
+			, InventoryService inventoryService
 			) {
 		this.goodsRepository = goodsRepository;
 		this.brandService = brandService;
 		this.categoryService = categoryService;
 	}
 
-	public Goods insertGoods(
+	// 모든 상품정보 조회
+	public List<Goods> getGoodsList(){
+		return goodsRepository.findAll();
+	}
+
+	// 카테고리 상품정보 조회
+	public List<Goods> getCategoryGoodsList(int categoryId){
+		return goodsRepository.findByCategoryId(categoryId);
+	}
+	
+	// 상품 추가
+	public boolean insertGoods(
 			int userId
 			, String name
 			, int price
@@ -70,7 +87,13 @@ public class GoodsService {
 						.image(urlPath)
 						.build();
 		
-		return goodsRepository.save(goods);
+		goods = goodsRepository.save(goods);
+				
+		if (goods != null) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 }

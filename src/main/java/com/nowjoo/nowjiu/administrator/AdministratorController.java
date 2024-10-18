@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nowjoo.nowjiu.administrator.dto.AddGoodsdDto;
+import com.nowjoo.nowjiu.administrator.dto.GoodsListDto;
 import com.nowjoo.nowjiu.administrator.dto.MemberDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorService;
 import com.nowjoo.nowjiu.administrator.service.AdministratorGoodsService;
@@ -54,7 +55,12 @@ public class AdministratorController {
 	}
 	
 	@GetMapping("/goods")
-	public String administratorGoods(){
+	public String administratorGoods(
+			Model model){
+		List<GoodsListDto> goodsList = administratorGoodsService.getGoodsList();
+		
+		model.addAttribute("goodsList", goodsList);
+		
 		return "administrator/goods";
 	}
 	@GetMapping("/goods-add")
@@ -65,6 +71,10 @@ public class AdministratorController {
 		model.addAttribute("brandAndCategory", addGoodsdDto);
 		
 		return "administrator/addGoods";
+	}
+	@GetMapping("/goods-inventory")
+	public String goodsInventory(){
+		return "administrator/inventory";
 	}
 	@GetMapping("/board")
 	public String administratorBoard(){
