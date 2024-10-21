@@ -29,7 +29,6 @@ public class Brand {
 	private int id;
 	
 	private String name;
-	private String image;
 	
 	@Column(name = "createdAt")
 	@CreationTimestamp

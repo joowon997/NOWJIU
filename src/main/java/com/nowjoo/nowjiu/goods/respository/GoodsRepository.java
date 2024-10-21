@@ -12,4 +12,6 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer> {
 	public Optional<Goods> findByName(String name);
 	
 	public List<Goods> findByCategoryId(int categoryId);
+	
+	public int countByCategoryId(int categoryId);
 }

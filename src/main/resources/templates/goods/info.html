@@ -5,7 +5,7 @@
 	<section layout:fragment="contents">
 		<div class="d-flex justify-content-center mt-4">
 			<article class="goods-info mr-3">
-				<img width="500px" height="500px" alt="메인 이미지" src="http://w.jiujitsukor.com/web/product/big/202408/62e85b5892de708f6312b5f11542d242.webp">
+				<img width="500px" height="500px" alt="메인 이미지" th:src="${goods.mainImage}">
 				<div class="d-flex justify-content-between mt-2">
 					<img width="90px" height="90px" alt="메인 이미지" src="http://w.jiujitsukor.com/web/product/big/202408/62e85b5892de708f6312b5f11542d242.webp">
 					<img width="90px" height="90px" alt="메인 이미지" src="http://w.jiujitsukor.com/web/product/big/202408/62e85b5892de708f6312b5f11542d242.webp">
@@ -15,8 +15,8 @@
 				</div>
 			</article>
 			<aside class="goods-info ml-3">
-				<h4>Moya 스타즈 & 스트라입스 주짓수 도복</h4>
-				<span>
+				<h4 th:text="${goods.name}">Moya 스타즈 & 스트라입스 주짓수 도복</h4>
+				<span th:utext="${goods.description}">
 					불테리어 브랜드의 인기 모델 '아칼라나타 R.24' 버전의 주짓수 도복을 소개합니다.
 					불꽃으로 세속적인 욕망을 불태우고, 검으로 악을 물리치는 수호신 '후도 묘오'를 디자인하였습니다.
 					2024년 IBJJF 규정에 맞춰 제작되었기 때문에 이전 모델처럼 자켓 안에 메쉬 원단이 없는 점 이용에 참고하여 주세요.<br><br>
@@ -40,10 +40,7 @@
 				</select>
 				<div>
 					<hr>
-						<div class="d-flex justify-content-between">
-							<span>Moya 스타즈 & 스트라입스 주짓수 도복 - A-1L</span>
-							<span>289,000원</span>
-						</div>
+						<span th:text="|${#numbers.formatInteger(goods.price, 3, 'COMMA')}원|">289,000원</span>
 					<hr>	
 				</div>
 				<div class="d-flex align-items-center justify-content-between">

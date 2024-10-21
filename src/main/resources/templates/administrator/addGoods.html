@@ -67,7 +67,10 @@
 				if(category == "direct"){
 					category = $("#categoryInput").val();
 				}
-				let description = $("#nameInput").val();
+				let description = $("#descriptionInput").val();
+				// 엔터값 변환
+				description = description.replace(/(?:\r\n|\r|\n)/g, '<br>');
+				
 				let file = $("#mainImgInput")[0].files[0];
 				
 				//유효성 검사

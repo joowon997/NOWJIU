@@ -3,6 +3,7 @@ package com.nowjoo.nowjiu.goods;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,23 @@ public class GoodsRestController {
 		this.goodsService = goodsService;
 	}
 	
+	// 상품삭제
+	@DeleteMapping("/goods-delete")
+	public Map<String, String> delectPost(
+			@RequestParam("goodsId") int postId
+			){
+		
+		Map<String, String> resultMap = new HashMap<>();
+		
+		if(goodsService.deleteGoods(postId)) {
+			resultMap.put("result", "success");
+		}else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	//상품 추가
 	@PostMapping("/goods-add")
 	public Map<String, String> addGoods(
 			@RequestParam("name") String name

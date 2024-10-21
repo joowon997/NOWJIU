@@ -7,7 +7,7 @@
 		<article>
 			<h1 class="text-center mt-5">주짓수 도복</h1>
 			<div class="goods-list-kategorie d-flex justify-content-between mt-4 ml-5">
-				<span>TOTAL 000ITEM</span>
+				<span>TOTAL <b th:text="${goods.count}">000ITEM</b></span>
 				<select class="form-control col-2">
 					<option>신상품</option>
 					<option>상품명</option>
@@ -15,20 +15,29 @@
 					<option>높은가격</option>
 				</select>
 			</div>
-			<div id="goodList" class="d-flex justify-content-between mb-2">
+			<div id="goodList" class="d-flex mb-2">
 				<!-- 상품카드 -->
-				<div class="goods-card mx-2" th:each="goods:${goodsList}">
+				<div class="goods-card mx-2" th:each="card:${goods.goodsList}" th:data-card-id="${card.goodsId}">
 					<div class="d-flex justify-content-center">
-						<img class="best-item" alt="상품" th:src="${goods.image}">
+						<img class="best-item" alt="상품" th:src="${card.mainImage}">
 					</div>
-					<div>
-						<div th:text="${goods.name}" class="sm">디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)</div>
-						<div th:text="|${#numbers.formatInteger(goods.price, 3, 'COMMA')}원|">172,000원</div>
+					<div class="d-flex align-items-stretch flex-column my-2">
+						<div th:text="${card.name}" class="font-weight-bold">디 아틀라스 '프로 스탠다드 24' 주짓수 도복 (3 컬러)</div>
+						<div th:text="|${#numbers.formatInteger(card.price, 3, 'COMMA')}원|" class="mt-2">172,000원</div>
 					</div>
 				</div>
 				<!-- /상품카드 -->
 			</div>	
-			<div class="text-center">1 2 3 4 5</div>
 		</article>
 	</section>
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			
+			$(".goods-card").on("click",function(){
+                let goodsId = $(this).data("card-id");
+                alert(goodsId);
+                location.href = "/nowjiu/goods-info?goodsId="+goodsId;
+			});
+		});
+	</script>
 </html>

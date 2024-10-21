@@ -5,11 +5,10 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class GoodsListDto {
+public class GoodsDto{
 
 	private int goodsId;
-	private String imagePath;
+	private String mainImage;
 	private String name;
 	private int price;
-	
 }
