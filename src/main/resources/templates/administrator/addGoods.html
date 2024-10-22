@@ -42,7 +42,7 @@
 			<div class="d-flex border-secondary border-bottom align-items-center">
 					<h5 class="create-cartegori text-center mx-3 mt-2">제품이미지</h5>
 				<div class="border-left border-secondary">
-					<input type="file" class="ml-3 my-2" name="goodsImg" id="uploadBtn" multiple accept=".jpeg, .jpg, .png">
+					<input type="file" class="ml-3 my-2" name="goodsImg" id="infoImgInput" multiple="multiple" accept=".jpeg, .jpg, .png">
 				</div>
 			</div>
 				<div id="imgArea"></div>
@@ -52,6 +52,24 @@
 	
 	<script layout:fragment="script">
 		$(document).ready(function(){
+			
+			//상세이미지
+			var inputFileList = new Array();     // 이미지 파일을 담아놓을 배열 (업로드 버튼 누를 때 서버에 전송할 데이터)
+
+			// 파일 선택 이벤트
+			$("#infoImgInput").on("change", function(e) {
+			　　var files = e.target.files;
+			　　var filesArr = Array.prototype.slice.call(files);
+			　　// 업로드 된 파일 유효성 체크
+			　　if (filesArr.length > 10) {
+			　　　　alert("이미지는 최대 10개까지 업로드 가능합니다.");
+			　　　　return;
+			　　}
+			　　filesArr.forEach(function(f) { 
+			　　　　inputFileList.push(f);    // 이미지 파일을 배열에 담는다.
+			　　});
+			});
+			
 			
 			//상품 추가
 			$("#addGoodsBtn").on("click",function(){
@@ -71,7 +89,7 @@
 				// 엔터값 변환
 				description = description.replace(/(?:\r\n|\r|\n)/g, '<br>');
 				
-				let file = $("#mainImgInput")[0].files[0];
+				let mainImage = $("#mainImgInput")[0].files[0];
 				
 				//유효성 검사
 				//상품명
@@ -113,7 +131,7 @@
 				}
 				
 				// 파일
-				if(file == ""){
+				if(mainImage == ""){
 					alert("파일을 선택하세요");
 					return;
 				}
@@ -124,7 +142,10 @@
 				formData.append("brand", brand);
 				formData.append("category", category);
 				formData.append("description", description);
-				formData.append("file", file);
+				formData.append("mainImage", mainImage);
+				for (let i = 0; i < inputFileList.length; i++) {
+				　　　　formData.append("InfoImage", inputFileList[i]);  // 배열에서 이미지들을 꺼내 폼 객체에 담는다.
+				　　}
 				
 				$.ajax({
 					type:"post"
@@ -148,28 +169,6 @@
 				
 				
 			});
-			
-			
-			/*			
-			// 다중 제품 이미지
-			$('#goodsImg').on("change",function(event){
-            
-            var files = event.target.files;
-            
-            for(var i= 0; i<files.length; i++){
-            	
-            	let image = new Image();
-            	let ImageTempUrl = window.URL.createObjectURL(file[i]);
-            	
-            	image.id = "goodsImg"+i;
-				image.src = files[i].scr;
-				image.alt = "상품 이미지";
-				
-				$("#imgArea").append(image);
-            }
-            
-      	  });
-*/
 			
 			// 메인 이미지 미리보기
 			$("#mainImgInput").on("change",function(event){

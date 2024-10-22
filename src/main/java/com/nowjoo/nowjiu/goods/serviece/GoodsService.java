@@ -14,8 +14,10 @@ import com.nowjoo.nowjiu.category.domian.Category;
 import com.nowjoo.nowjiu.category.service.CategoryService;
 import com.nowjoo.nowjiu.common.FileManager;
 import com.nowjoo.nowjiu.goods.domain.Goods;
+import com.nowjoo.nowjiu.goods.domain.GoodsImage;
 import com.nowjoo.nowjiu.goods.dto.GoodsInfoDto;
 import com.nowjoo.nowjiu.goods.dto.GoodsListDto;
+import com.nowjoo.nowjiu.goods.respository.GoodsImageRepository;
 import com.nowjoo.nowjiu.goods.respository.GoodsRepository;
 import com.nowjoo.nowjiu.inventory.service.InventoryService;
 
@@ -25,27 +27,42 @@ public class GoodsService {
 	private GoodsRepository goodsRepository;
 	private BrandService brandService;
 	private	CategoryService categoryService;
+	private GoodsImageRepository goodsImageRepository;
 	
 	public GoodsService(
 			GoodsRepository goodsRepository
 			, BrandService brandService
 			, CategoryService categoryService
 			, InventoryService inventoryService
+			, GoodsImageRepository goodsImageRepository
 			) {
 		this.goodsRepository = goodsRepository;
 		this.brandService = brandService;
 		this.categoryService = categoryService;
+		this.goodsImageRepository = goodsImageRepository;
 	}
 	
 	// 모든 상품정보 조회
 	public List<Goods> getGoodsList(){
 		return goodsRepository.findAll();
 	}
-
-	// 상품하나 정보조회
-	public GoodsInfoDto getGoods(int goodsId){
+	
+	// 하나정보 조회
+	public Goods getGoods(int goodsId){
 		Optional<Goods> optionalGoods = goodsRepository.findById(goodsId);
 		Goods goods = optionalGoods.orElse(null);
+		
+		return goods;
+	}
+
+	// 상품 상세정보
+	public GoodsInfoDto getGoodsInfo(int goodsId){
+		// 상품 정보
+		Optional<Goods> optionalGoods = goodsRepository.findById(goodsId);
+		Goods goods = optionalGoods.orElse(null);
+		// 상세 이미지
+		List<GoodsImage> goodsImageList = goodsImageRepository.findByGoodsId(goodsId);
+		
 		
 		GoodsInfoDto goodsInfo = GoodsInfoDto.builder()
 								.goodsId(goodsId)
@@ -53,6 +70,7 @@ public class GoodsService {
 								.price(goods.getPrice())
 								.description(goods.getDescription())
 								.mainImage(goods.getImage())
+								.infoImage(goodsImageList)
 								.build();
 		return goodsInfo;
 	}
@@ -108,10 +126,11 @@ public class GoodsService {
 			, String brand
 			, String category
 			, String description
-			, MultipartFile file
+			, MultipartFile mainImage
+			, List<MultipartFile> infoImage
 			) {
 		// 이미지 경로 설정
-		String urlPath = FileManager.saveFile(userId, file);
+		String urlPath = FileManager.saveFile(userId, mainImage);
 		
 		// 브랜드 있는지 확인후 저장
 		Brand brandEntity = brandService.getBrand(brand);
@@ -142,7 +161,22 @@ public class GoodsService {
 						.build();
 		
 		goods = goodsRepository.save(goods);
-				
+		
+
+		// 상품 상세 이미지
+		GoodsImage goodsImage = new GoodsImage();
+		for(MultipartFile image : infoImage) {
+			
+			String url = FileManager.saveFile(userId, image);
+			
+			goodsImage = GoodsImage.builder()
+											.goodsId(goods.getId())
+											.image(url)
+											.build();
+			
+			goodsImage = goodsImageRepository.save(goodsImage);
+		}
+		
 		if (goods != null) {
 			return true;
 		}else {

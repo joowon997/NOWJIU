@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nowjoo.nowjiu.administrator.dto.GoodsDto;
 import com.nowjoo.nowjiu.goods.dto.GoodsInfoDto;
 import com.nowjoo.nowjiu.goods.dto.GoodsListDto;
 import com.nowjoo.nowjiu.goods.serviece.GoodsService;
@@ -40,20 +39,11 @@ public class GoodsController {
 	public String goodsInfo(
 			@RequestParam("goodsId") int goodsId
 			, Model model){
-		GoodsInfoDto goods = goodsService.getGoods(goodsId);
+		GoodsInfoDto goods = goodsService.getGoodsInfo(goodsId);
 		
 		model.addAttribute("goods", goods);
 		
 		return "goods/info";
 	}
 
-	@GetMapping("/order")
-	public String order(){
-		return "goods/order";
-	}
-
-	@GetMapping("/cart")
-	public String cart(){
-		return "goods/cart";
-	}
 }

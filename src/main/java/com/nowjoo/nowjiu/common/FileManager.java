@@ -42,7 +42,6 @@ public class FileManager {
 					
 					return null;
 				}
-				
 				// 파일 저장
 				String filePath = directoryPath + "/" + file.getOriginalFilename();
 				

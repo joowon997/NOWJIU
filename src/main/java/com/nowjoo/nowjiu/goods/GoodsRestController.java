@@ -1,6 +1,7 @@
 package com.nowjoo.nowjiu.goods;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,12 +51,13 @@ public class GoodsRestController {
 			, @RequestParam("brand") String brand
 			, @RequestParam("category") String category
 			, @RequestParam("description") String description
-			, @RequestParam("file") MultipartFile file
+			, @RequestParam("mainImage") MultipartFile mainImage
+			, @RequestParam("InfoImage") List<MultipartFile> infoImage
 			, HttpSession session
 			){
 		int userId = (Integer)session.getAttribute("userId");
 		
-		boolean addgoods = goodsService.insertGoods(userId, name, price, brand, category, description, file);
+		boolean addgoods = goodsService.insertGoods(userId, name, price, brand, category, description, mainImage, infoImage);
 		
 		Map<String, String> resultMap = new HashMap<>();
 		

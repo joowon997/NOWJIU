@@ -16,10 +16,10 @@
 				<div>
 					<span class="small" th:if="${session.userId != null}" th:utext="|<b>${session.userName}</b> 회원님 환영합니다.|">사용자이름</span>
 					<h1>
-						<a href="/nowjiu/logout"><i th:if="${session.userId != null}" class="bi bi-box-arrow-in-left text-dark"></i></a>
-						<a href="/nowjiu/login"><i th:unless="${session.userId != null}" class="bi bi-box-arrow-in-left text-dark"></i></a>
+						<a href="/nowjiu/logout"><i th:if="${session.userId != null}" class="bi bi-box-arrow-left text-dark"></i></a>
+						<a href="/nowjiu/login"><i th:unless="${session.userId != null}" class="bi bi-box-arrow-in-right text-dark"></i></a>
 						<i class="bi bi-person"></i>
-						<i class="bi bi-bag"></i>
+						<a href="/nowjiu/cart"><i class="text-dark bi bi-bag"></i></a>
 					</h1>
 				</div>
 			</div>
