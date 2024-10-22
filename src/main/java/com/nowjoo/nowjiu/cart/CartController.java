@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nowjoo.nowjiu.cart.dto.CartDto;
 import com.nowjoo.nowjiu.cart.service.CartService;
-import com.nowjoo.nowjiu.goods.dto.GoodsInfoDto;
 
 import jakarta.servlet.http.HttpSession;
-
 
 @Controller
 @RequestMapping("/nowjiu")

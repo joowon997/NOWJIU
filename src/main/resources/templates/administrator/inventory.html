@@ -34,20 +34,22 @@
 	<script layout:fragment="script">
 		$(document).ready(function(){
 			
+			// 재고 추가
+			
+			
 			// 사이즈 직접입력
 			$(document).on("change", ".select-box",function(){
 				let selectId = $(this).data("size-select");
-				let drectId= $("#sizeDirect"+ selectId).data("size-select");
 				
                 if($(this).val() == "direct" && selectId == drectId) {
-                	$("#sizeDirect" + drectId).removeClass("d-none");
+                	$("#sizeDirect" + selectId).removeClass("d-none");
                 }else {
-                    $("#sizeDirect" + drectId).addClass("d-none");
+                    $("#sizeDirect" + selectId).addClass("d-none");
                 }
 			})
 			
 			
-			// 사이즈 추가
+			// 사이즈 입력추가
 			var sizeCount = 0;
 			const sizeCountmax = 4;
 			$(".size-add").on("click", function(e){

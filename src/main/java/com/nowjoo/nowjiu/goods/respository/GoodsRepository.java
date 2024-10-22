@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nowjoo.nowjiu.goods.domain.Goods;
+import com.nowjoo.nowjiu.goods.domain.GoodsImage;
 
 public interface GoodsRepository extends JpaRepository<Goods, Integer> {
 
@@ -14,4 +15,5 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer> {
 	public List<Goods> findByCategoryId(int categoryId);
 	
 	public int countByCategoryId(int categoryId);
+	
 }

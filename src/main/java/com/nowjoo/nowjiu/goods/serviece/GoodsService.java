@@ -1,6 +1,7 @@
 package com.nowjoo.nowjiu.goods.serviece;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,7 +109,13 @@ public class GoodsService {
 			Optional<Goods> optionalGoods = goodsRepository.findById(goodsId);
 			Goods goods = optionalGoods.orElse(null);
 			
+			List<GoodsImage> imageList = goodsImageRepository.findByGoodsId(goodsId);
+			
 			if (goods != null) {
+				for(GoodsImage info : imageList) {
+					FileManager.removeFile(goods.getImage());
+					goodsImageRepository.delete(info);
+				}
 				FileManager.removeFile(goods.getImage());
 				goodsRepository.delete(goods);
 				return true;

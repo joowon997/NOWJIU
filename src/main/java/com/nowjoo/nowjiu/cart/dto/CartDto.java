@@ -12,6 +12,7 @@ import lombok.Getter;
 public class CartDto {
 
 	private int userId;
+	private int total;
 
-	private List<Goods> goodsList;
+	private List<CartGoodsDto> cartGoods;
 }

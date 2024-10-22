@@ -61,7 +61,6 @@
 
 .goods-info{
 	width: 500px;
-	height: 600px;
 }
 
 .review-card-img{
@@ -128,6 +127,12 @@
 
 #goodList{
 	width: 1300px;
+	flex-wrap: wrap;
+	margin: 0 auto;
+}
+
+#infoList{
+	width: 500px;
 	flex-wrap: wrap;
 	margin: 0 auto;
 }

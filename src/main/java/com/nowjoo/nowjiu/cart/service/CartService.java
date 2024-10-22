@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.nowjoo.nowjiu.cart.domain.Cart;
 import com.nowjoo.nowjiu.cart.dto.CartDto;
+import com.nowjoo.nowjiu.cart.dto.CartGoodsDto;
 import com.nowjoo.nowjiu.cart.respository.CartRespository;
 import com.nowjoo.nowjiu.goods.domain.Goods;
 import com.nowjoo.nowjiu.goods.serviece.GoodsService;
@@ -30,23 +31,49 @@ public class CartService {
 	public CartDto getUserCart(int userId) {
 		List<Cart> cartList = cartRespository.findByUserId(userId);
 		
-		List<Goods> goodsList = new ArrayList<>();
+		List<CartGoodsDto> cartGoodsList = new ArrayList<>();
+		int total = 0;
 		for(Cart cart : cartList){
 			int goodId = cart.getGoodsId();
 			Goods goods = goodsService.getGoods(goodId);
 			
-			goodsList.add(goods);
+			int cartId = cart.getId();
+			
+			total += goods.getPrice();
+			CartGoodsDto cartGoods = CartGoodsDto.builder()
+										.cartId(cartId)
+										.name(goods.getName())
+										.price(goods.getPrice())
+										.image(goods.getImage())
+										.build();
+			
+			cartGoodsList.add(cartGoods);
 		}
 		
 		CartDto cartDto = CartDto.builder()
 								.userId(userId)
-								.goodsList(goodsList)
+								.cartGoods(cartGoodsList)
+								.total(total)
 								.build();
 		return cartDto;
 	}
 	
+	// 장바구니 삭제
+	public boolean cartdelete(int cartId) {
+		Optional<Cart> optionalCart = cartRespository.findById(cartId);
+		Cart cart = optionalCart.orElse(null);
+		
+		if (cart != null) {
+			cartRespository.delete(cart);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
 	// 장바구니 추가
-	public Cart insertCart(int goodId, int userId) {
+	public boolean insertCart(int goodId, int userId) {
 		
 		Optional<Cart> optionalCart = cartRespository.findByGoodsIdAndUserId(goodId, userId);
 		Cart cart = optionalCart.orElse(null);
@@ -57,10 +84,10 @@ public class CartService {
 						.userId(userId)
 						.build();
 			
-			return cartRespository.save(cart);
+			cartRespository.save(cart);
+			return true;
 		}else {
-			
-			return cart;
+			return false;
 		}
 	}
 }
