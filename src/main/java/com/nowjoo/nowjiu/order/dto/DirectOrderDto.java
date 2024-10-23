@@ -22,6 +22,5 @@ public class DirectOrderDto {
 	private String goodsName;
 	private int goodsPrice;
 	
-	private int total;
 	
 }
