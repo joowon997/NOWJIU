@@ -50,10 +50,10 @@ public class CartRestController {
 			, HttpSession session){
 		
 		int userId = (Integer)session.getAttribute("userId");
-		boolean isCart = cartService.insertCart(goodsId, userId);
+		Cart cart = cartService.insertCart(goodsId, userId);
 		
 		Map<String, String> resultMap = new HashMap<>();
-		if (isCart) {
+		if (cart != null) {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");

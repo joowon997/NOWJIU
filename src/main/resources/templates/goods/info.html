@@ -89,22 +89,7 @@
 			$("#orderBtn").on("click",function(){
                 let goodsId = $(this).data("goods-id");
                 
-                $.ajax({
-					type:"post"
-					, url: "/api/cart-add"
-					, data: {"goodsId":goodsId}
-					, success: function(data){
-						if(data.result == "success"){
-							 location.href = "/nowjiu/order";
-						}else{
-							alert("구매 오류");
-						}
-					}
-					, error: function(){
-						alert("구매 에러");
-					}
-				});
-                
+				 location.href = "/nowjiu/order?goodsId=" + goodsId;
 			});
 		});
 	</script>

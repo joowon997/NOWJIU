@@ -10,6 +10,6 @@ import com.nowjoo.nowjiu.cart.domain.Cart;
 public interface CartRespository extends JpaRepository<Cart, Integer> {
 
 	public Optional<Cart> findByGoodsIdAndUserId(int goodsId, int userId);
-	
+
 	public List<Cart> findByUserId(int userId);
 }

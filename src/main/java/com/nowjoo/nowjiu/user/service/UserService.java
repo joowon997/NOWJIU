@@ -26,6 +26,14 @@ public class UserService {
 		return userRepository.findAll();
 	}
 	
+	// 회원정보 한명 조회
+	public User getOneUser(int userId){
+		Optional<User> optionalUser = userRepository.findById(userId);
+		User user = optionalUser.orElse(null);
+		
+		return user;
+	}
+	
 	// 로그인
 	public User getUser(
 			String loginId

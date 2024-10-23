@@ -1,2 +1,8 @@
 mysql:
   password: root
+
+imp:
+  code: imp72853673
+  api:
+    key: 3186342728772463
+    secret: rV9bMFSr8KTEsZSZ8gumwY309WisCfumwpIgNJPBwDku3cHiAKNQsB1tvbgqk3Q3zNbIzS4YIglBVMg2

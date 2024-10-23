@@ -26,6 +26,15 @@ public class CartService {
 		this.cartRespository = cartRespository;
 		this.goodsService = goodsService;
 	}
+	// 상품 장바구니 조회
+	public Cart getcart(int goodId, int userId) {
+		Optional<Cart> optionalCart = cartRespository.findByGoodsIdAndUserId(goodId, userId);
+		Cart cart = optionalCart.orElse(null);
+	
+		return cart;
+	}
+	
+	
 	
 	// 회원 장바구니 조회
 	public CartDto getUserCart(int userId) {
@@ -71,12 +80,10 @@ public class CartService {
 		}
 	}
 	
-	
 	// 장바구니 추가
-	public boolean insertCart(int goodId, int userId) {
+	public Cart insertCart(int goodId, int userId) {
 		
-		Optional<Cart> optionalCart = cartRespository.findByGoodsIdAndUserId(goodId, userId);
-		Cart cart = optionalCart.orElse(null);
+		Cart cart = getcart(goodId, userId);
 		
 		if(cart == null) {
 			cart = Cart.builder()
@@ -84,10 +91,10 @@ public class CartService {
 						.userId(userId)
 						.build();
 			
-			cartRespository.save(cart);
-			return true;
 		}else {
-			return false;
+			return null;
 		}
+
+		return cartRespository.save(cart);
 	}
 }
