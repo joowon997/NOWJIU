@@ -55,6 +55,13 @@ public class GoodsService {
 		
 		return goods;
 	}
+	// 상품 id 조회
+	public int getGoodsID(String goodsName){
+		Optional<Goods> optionalGoods = goodsRepository.findByName(goodsName);
+		Goods goods = optionalGoods.orElse(null);
+		
+		return goods.getId();
+	}
 
 	// 상품 상세정보
 	public GoodsInfoDto getGoodsInfo(int goodsId){

@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Table(name="PrePayment")
+@Table(name="prePayment")
 @Entity
 public class PrePayment {
 

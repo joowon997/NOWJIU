@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Table(name="order")
+@Table(name="`order`")
 @Entity
 public class Order {
 
@@ -30,14 +30,30 @@ public class Order {
 	
 	private int price;
 	
-	@Column(name = "payMent")
-	private String payMent;
+	@Column(name = "merchantUid")
+	private String merchantUid;
 	
-	@Column(name = "zipCode")
-	private int zipCode;
-	private String address;
+	@Column(name = "userId")
+	private int userId;
+
+	@Column(name = "goodsId")
+	private int goodsId;
+	
+	@Column(name = "payMethod")
+	private String payMethod;
+
+	@Column(name = "userName")
 	private String userName;
+	
+	@Column(name = "goodsName")
+	private String goodsName;
+	
+	private int amount;
+	
 	private String phone;
+	private String address;
+	
+	private int post;
 	
 	@Column(name = "createdAt")
 	@CreationTimestamp

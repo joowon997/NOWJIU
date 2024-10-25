@@ -80,6 +80,15 @@ public class CartService {
 		}
 	}
 	
+	public void deleteCartByUesrIdAndGoodsId(int userId, int goodsId) {
+		Optional<Cart> optionalCart = cartRespository.findByGoodsIdAndUserId(goodsId,userId);
+		Cart cart = optionalCart.orElse(null);
+		if (cart != null) {
+			cartRespository.delete(cart);
+		}
+	}
+		
+	
 	// 장바구니 추가
 	public Cart insertCart(int goodId, int userId) {
 		

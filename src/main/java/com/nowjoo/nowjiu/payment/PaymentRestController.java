@@ -3,6 +3,7 @@ package com.nowjoo.nowjiu.payment;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +20,10 @@ import com.siot.IamportRestClient.response.Payment;
 
 @RestController
 @RequestMapping("/api")
-public class PaymentController{
+public class PaymentRestController{
 	private PaymentService paymentService;
 	
-	public PaymentController(
+	public PaymentRestController(
 			PaymentService paymentService
 			) {
 		this.paymentService = paymentService;
@@ -35,10 +36,15 @@ public class PaymentController{
 		  paymentService.postPrepare(request);
 	    }
 	 
+	 @DeleteMapping("/payment/delete-prepare")
+	 public void deletePreparePayment(@RequestBody PrePayment request) 
+			 throws IamportResponseException, IOException {
+		 paymentService.deletePrepare(request.getMerchantUid());
+	 }
+	 
 	 @PostMapping("/payment/validate")
 	 public void preparePayment(@RequestBody PaymentDto request) 
 			 throws IamportResponseException, IOException {
-		 
 		 paymentService.validatePayment(request);
 	 }
 	

@@ -86,77 +86,98 @@
 	</th:block>
 	<script layout:fragment="script">
 		$(document).ready(function(){
-			// 주문번호 결제 예정금액 전달
-			$.ajax({
-                url: "/api/payment/prepare",
-                method: "post",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    merchant_uid: merchantUid, // 가맹점 주문번호
-                    amount: total // 결제 예정금액
-                })
-            });
+			
+			
+			
 			
 			var IMP = window.IMP; 
 	        IMP.init("imp72853673");
 			
 			//결제 하기
 			$("#cardPayBtn").on("click",function(){
+				// 주문번호 결제 예정금액 전달
+				var merchantUid = "order" + new Date().getTime();
+				// var total = $("#total").data("total-price");
+				var total = 10;
+				
+				$.ajax({
+	                url: "/api/payment/prepare",
+	                method: "post",
+	                contentType: "application/json",
+	                data: JSON.stringify({
+	                    merchantUid: merchantUid // 가맹점 주문번호
+	                    , amount: total // 결제 예정금액
+	                })
+	            });
+				
+				// iamport api
 				var name = $("#orderName").val();
 				var goods = $("#goodName").data("good-name");
 				var phone = $("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val();
 				var postcode = $("#zipCode").val();
 				var address = $("#address").val()+ "_" + $("#detailAddress").val();
-				var total = $("#total").data("total-price");
-				var merchantUid = "order"+ new Date().getTime();
-				
 				
 				IMP.request_pay({
                     pg: "html5_inicis",		//KG이니시스 pg파라미터 값
                     pay_method: "card",		//결제 방법
                     merchant_uid: merchantUid,//주문번호
                     name: goods,		//상품 명
-                    amount: 100,			//금액
+                    amount: 10,			//금액
       				buyer_name: name,
       				buyer_tel: phone,
       				buyer_addr: address,
       				buyer_postcode: postcode
-	            },function (rsp) { // callback
+	            }, function (rsp) { 
 	            	if (rsp.success) {
 	            		$.ajax({
-                            url: "/api/payment/validate"
-                            ,method: "POST"
-                            ,contentType: "application/json"
-                            ,data: JSON.stringify({
-                                imp_uid: rsp.imp_uid
-                               , merchant_uid: rsp.merchant_uid
-                            })
-	            		}).done(function (data) {
+	                            url: "/api/payment/validate",
+	                            method: "POST",
+	                            contentType: "application/json",
+	                            data: JSON.stringify({
+	                                impUid: rsp.imp_uid
+	                               ,merchantUid: rsp.merchant_uid
+	                            })
+                        }).done(function (data) {
                             var mesg = '결제가 완료되었습니다.';
-                            var buyerInfo = {
-                                "merchant_uid": rsp.merchant_uid,
-                                "user_name": rsp.buyer_name,
-                                "pay_method": rsp.pay_method,
-                                "name": rsp.name,
+                        	alert(mesg);
+                            var orderInfo = {
+                                "merchantUid": rsp.merchant_uid,
+                                "userName": rsp.buyer_name,
+                                "payMethod": rsp.pay_method,
+                                "goodsName": rsp.name,
                                 "amount": rsp.paid_amount,
                                 "phone": rsp.buyer_tel,
                                 "addr": rsp.buyer_addr,
                                 "post": rsp.buyer_postcode,
-                                "recipient": recipient
                             }
 
-                         /*   $.ajax({
+                         	   $.ajax({
                                 type: "post",
-                                url: "save_buyerInfo",
+                                url: "/api/order-save",
                                 contentType: "application/json",
-                                data: JSON.stringify(buyerInfo),
-                                success: function (response) {
-                                    console.log("결제정보 저장 완료");
-                                }
-                            });*/
+                                data: JSON.stringify(orderInfo),
+                                function(data){
+            						if(data.result == "success"){
+            							location.hrdf="/nowjiu/main";
+            						}else{
+            							alert("주문정보 저장 오류");
+            						}
+            					}
+            					, error: function(){
+            						alert("주문정보 저장 에러");
+            					}
+                            });
                         });
                     } else {
                         var mesg = '결제를 실패하였습니다.';
+                        $.ajax({
+                            url: "/api/payment/delete-prepare"
+                            ,method: "delete"
+                            ,contentType: "application/json"
+                            ,data: JSON.stringify({
+                            	merchantUid: merchantUid
+                            })
+                        });
                         alert(mesg);
                     }
                 });

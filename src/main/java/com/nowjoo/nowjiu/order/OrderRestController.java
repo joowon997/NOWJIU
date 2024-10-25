@@ -1,15 +1,19 @@
 package com.nowjoo.nowjiu.order;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nowjoo.nowjiu.order.domain.Order;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
 import com.nowjoo.nowjiu.order.service.OrderService;
+import com.siot.IamportRestClient.exception.IamportResponseException;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,20 +29,23 @@ public class OrderRestController {
 		this.orderService = orderService;
 	}
 	
-//	@PostMapping("/order-direct")
-//	public Map<String, String> addCart(
-//			@RequestParam ("goodsId") int goodsId
-//			, HttpSession session){
-//		int userId = (Integer)session.getAttribute("userId");
-//		
-//		DirectOrderDto directOrderDto = orderService.getDirectOrder(goodsId, userId);
-//		
-//		Map<String, String> resultMap = new HashMap<>();
-//		if (directOrderDto != null) {
-//			resultMap.put("result", "success");
-//		} else {
-//			resultMap.put("result", "fail");
-//		}
-//		return resultMap;
-//	}
+	@PostMapping("/order-save")
+	public Map<String, String> saveOrder(
+			@RequestBody Order request
+			, HttpSession session)
+					throws IamportResponseException, IOException{
+		int userId = (Integer)session.getAttribute("userId");
+		
+		Order order = orderService.insertOrder(request, userId);
+		
+		Map<String, String> resultMap = new HashMap<>();
+		
+		if (order != null) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
 }

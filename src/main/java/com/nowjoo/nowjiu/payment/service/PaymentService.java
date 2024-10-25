@@ -17,6 +17,8 @@ import com.siot.IamportRestClient.request.PrepareData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
+import jakarta.annotation.PostConstruct;
+
 @Service
 public class PaymentService {
 	
@@ -28,9 +30,13 @@ public class PaymentService {
 	@Value("${spring.imp.secret}")
 	private String secretKey;
 	
+	@PostConstruct
+    public void init() {
+        this.iamportClient = new IamportClient("3186342728772463", "rV9bMFSr8KTEsZSZ8gumwY309WisCfumwpIgNJPBwDku3cHiAKNQsB1tvbgqk3Q3zNbIzS4YIglBVMg2");
+    }
+	
 	public PaymentService(
 		PrePaymentRepository prePaymentRepository) {
-		this.iamportClient = new IamportClient(apiKey, secretKey);
 		this.prePaymentRepository = prePaymentRepository;
 	}
 	
@@ -42,10 +48,20 @@ public class PaymentService {
         prePaymentRepository.save(request); // 주문번호와 결제예정 금액 DB 저장
     }
 	
+	// 임시가격 삭제
+	public void deletePrepare(String merchantUid) throws IamportResponseException, IOException {
+		Optional<PrePayment> optionalPrePayment = prePaymentRepository.findByMerchantUid(merchantUid);
+		PrePayment prePayment = optionalPrePayment.orElse(null); // 사전 등록 조회 
+		
+		if(prePayment != null) {
+			prePaymentRepository.delete(prePayment); // 주문번호와 결제예정 금액 DB 삭제
+		}
+    }
+	
 	// 결제후 비교
 	public Payment validatePayment(PaymentDto request) throws IamportResponseException, IOException {
 		Optional<PrePayment> optionalPrePayment = prePaymentRepository.findByMerchantUid(request.getMerchantUid());
-		PrePayment prePayment = optionalPrePayment.orElse(null);
+		PrePayment prePayment = optionalPrePayment.orElseThrow();
         BigDecimal preAmount = prePayment.getAmount(); // DB에 저장된 결제요청 금액 
         
         IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(request.getImpUid());
