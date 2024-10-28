@@ -40,8 +40,8 @@ public class OrderController {
 		return "goods/order";
 	}
 	
-	@GetMapping("/order-cart")
-	public String orderCart(
+	@GetMapping("/order-selete-cart")
+	public String orderSelectCart(
 			@RequestParam ("cartIdList") List<Integer> catrIdList
 			, Model model
 			, HttpSession session){
@@ -49,6 +49,20 @@ public class OrderController {
 		int userId = (Integer)session.getAttribute("userId");
 		
 		CartOrderDto cartOrderDto = orderService.getcartOrder(catrIdList, userId);
+		
+		model.addAttribute("order", cartOrderDto);
+		
+		return "goods/orderCart";
+	}
+	
+	@GetMapping("/order-all-cart")
+	public String orderAllCart(
+			 Model model
+			, HttpSession session){
+		
+		int userId = (Integer)session.getAttribute("userId");
+		
+		CartOrderDto cartOrderDto = orderService.getcartOrder(userId);
 		
 		model.addAttribute("order", cartOrderDto);
 		

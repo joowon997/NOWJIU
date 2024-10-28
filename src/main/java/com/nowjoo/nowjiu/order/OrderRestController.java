@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nowjoo.nowjiu.order.domain.Order;
+import com.nowjoo.nowjiu.order.domain.OrderList;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
+import com.nowjoo.nowjiu.order.dto.OrderListDto;
 import com.nowjoo.nowjiu.order.service.OrderService;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 
@@ -31,12 +33,10 @@ public class OrderRestController {
 	
 	@PostMapping("/order-save")
 	public Map<String, String> saveOrder(
-			@RequestBody Order request
-			, HttpSession session)
+			@RequestBody Order request)
 					throws IamportResponseException, IOException{
-		int userId = (Integer)session.getAttribute("userId");
 		
-		Order order = orderService.insertOrder(request, userId);
+		Order order = orderService.insertOrder(request);
 		
 		Map<String, String> resultMap = new HashMap<>();
 		
@@ -48,4 +48,25 @@ public class OrderRestController {
 		
 		return resultMap;
 	}
+
+	@PostMapping("/orderList-save")
+	public Map<String, String> saveOrderList(
+			@RequestBody OrderListDto request
+			, HttpSession session)
+					throws IamportResponseException, IOException{
+		int userId = (Integer)session.getAttribute("userId");
+		
+		OrderList orderList = orderService.insertOrderList(request, userId);
+		
+		Map<String, String> resultMap = new HashMap<>();
+		
+		if (orderList != null) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
+	
 }

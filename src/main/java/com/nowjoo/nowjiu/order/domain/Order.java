@@ -27,20 +27,11 @@ public class Order {
 	@Column(name = "merchantUid")
 	private String merchantUid;
 	
-	@Column(name = "userId")
-	private int userId;
-
-	@Column(name = "goodsId")
-	private int goodsId;
-	
 	@Column(name = "payMethod")
 	private String payMethod;
 
 	@Column(name = "userName")
 	private String userName;
-	
-	@Column(name = "`goodsName`")
-	private String goodsName;
 	
 	private int amount;
 	

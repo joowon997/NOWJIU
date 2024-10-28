@@ -3,6 +3,7 @@ package com.nowjoo.nowjiu.order.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,11 @@ import com.nowjoo.nowjiu.cart.service.CartService;
 import com.nowjoo.nowjiu.goods.domain.Goods;
 import com.nowjoo.nowjiu.goods.serviece.GoodsService;
 import com.nowjoo.nowjiu.order.domain.Order;
+import com.nowjoo.nowjiu.order.domain.OrderList;
 import com.nowjoo.nowjiu.order.dto.CartOrderDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
+import com.nowjoo.nowjiu.order.dto.OrderListDto;
+import com.nowjoo.nowjiu.order.respository.OrderListRepository;
 import com.nowjoo.nowjiu.order.respository.OrderRepository;
 import com.nowjoo.nowjiu.payment.service.PaymentService;
 import com.nowjoo.nowjiu.user.domain.User;
@@ -25,36 +29,31 @@ public class OrderService {
 	private UserService userService;
 	private GoodsService goodsService;
 	private OrderRepository orderRepository;
+	private	OrderListRepository orderListRepository;
 	
 	public OrderService(
 			CartService cartService
 			, UserService userService
 			, GoodsService goodsService
 			, OrderRepository orderRepository
-			, PaymentService paymentService
+			, OrderListRepository orderListRepository
 			) {
 		this.cartService = cartService;
 		this.userService = userService;
 		this.goodsService = goodsService;
 		this.orderRepository= orderRepository;
+		this.orderListRepository = orderListRepository;
 	}
 
-	// 주문 리스트 저장
 	
 	
-	// 주문 기록 저장
-	public Order insertOrder(Order request, int userId) {
-		// 상품id
-		int goodsId = goodsService.getGoodsID(request.getGoodsName());
-		
+	// 단건 주문 기록 저장
+	public Order insertOrder(Order request) {
 		// 주문기록 저장
 		Order order = Order.builder()
 						.merchantUid(request.getMerchantUid())
-						.userId(userId)
-						.goodsId(goodsId)
 						.payMethod(request.getPayMethod())
 						.userName(request.getUserName())
-						.goodsName(request.getGoodsName())
 						.amount(request.getAmount())
 						.phone(request.getPhone())
 						.address(request.getAddress())
@@ -62,10 +61,26 @@ public class OrderService {
 						.build();
 		order = orderRepository.save(order);
 		
-		// 장바구니 삭제
-		cartService.deleteCartByUesrIdAndGoodsId(userId,goodsId);
-		
 		return order;
+	}
+	// 주문목록 저장
+	public OrderList insertOrderList(OrderListDto request, int userId) {
+		// 상품 id
+		int goodId = request.getGoodsId();
+		// 주문기록 id
+		String merchantUid = request.getMerchantUid();
+		Optional<Order> orderOptional = orderRepository.findByMerchantUid(merchantUid);
+		Order order = orderOptional.orElse(null);
+		
+		int orderId = order.getId();
+		
+		OrderList orderList = OrderList.builder()
+									.goodsId(goodId)
+									.userId(userId)
+									.orderId(orderId)
+									.build();
+		
+		return orderListRepository.save(orderList);
 	}
 	
 	
@@ -101,15 +116,8 @@ public class OrderService {
 		return directOrderDto;
 	}
 	
-	// 장바구니페이지 => 주문페이지 이동
+	// 선택상품 주문페이지 이동
 	public CartOrderDto getcartOrder(List<Integer> cartIdList, int userId) {
-//		//카트 id
-//		List<Integer> cartIdList = new ArrayList<>();
-//		String cartStr[] = cartIdStr.split(",");
-//		for (String cart : cartStr) {
-//			int cartId = Integer.parseInt(cart);
-//			cartIdList.add(cartId);
-//		}
 		
 		// 회원정보 조회
 		User user = userService.getOneUser(userId);
@@ -120,6 +128,38 @@ public class OrderService {
 		int total = 0;
 		for(int cartId : cartIdList) {
 			int goodsId = cartService.getcart(cartId).getGoodsId();
+			Goods goods = goodsService.getGoods(goodsId);
+			total += goods.getPrice();
+			
+			goodsList.add(goods);
+		}
+		CartOrderDto cartOrderDto = CartOrderDto.builder()
+									.userId(userId)
+									.userName(user.getName())
+									.phoneNum2(phone[1])
+									.phoneNum3(phone[2])
+									.userZipCode(user.getZipCode())
+									.userAddress(user.getAddress())
+									.userDetaileAddress(user.getDetaileAddress())
+									.goodList(goodsList)
+									.totalPrice(total)
+									.build();
+		
+		return cartOrderDto;
+	}
+	
+	// 전체상품
+	public CartOrderDto getcartOrder(int userId) {
+		// 회원정보 조회
+		User user = userService.getOneUser(userId);
+				
+		String phone[] = user.getPhoneNumber().split("-");
+		// 구매 리스트
+		List<Cart> cartList = cartService.orderGetUserCart(userId);
+		List<Goods> goodsList = new ArrayList<>();
+		int total = 0;
+		for(Cart cart : cartList) {
+			int goodsId = cart.getGoodsId();
 			Goods goods = goodsService.getGoods(goodsId);
 			total += goods.getPrice();
 			

@@ -16,7 +16,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="cart:${cartDto.cartGoods}">
-						<td class="align-middle"><input class="cartChk" type="checkbox" th:value="${cart.cartId}" checked="checked"></td>
+						<td class="align-middle"><input class="cartChk" type="checkbox" th:data-cart-price="${cart.price}" th:value="${cart.cartId}"></td>
 						<td class="align-middle">
 							<div class="d-flex align-items-center">				
 								<img class="ml-5 my-2" width="150px" height="150px" alt="선택상품" th:src="${cart.image}">
@@ -37,19 +37,42 @@
 			<div class="border border-dark mt-4">
 				<div class="mx-5 my-2">주문상품</div>
 				<div class="border-top border-dark d-flex justify-content-between mx-5">
-				 <span class="my-3">총 상품금액</span>
-				 <span class="my-3" th:text="|${#numbers.formatInteger(cartDto.total, 3, 'COMMA')}원|">000,000원</span>
+				 <span class="my-3">총 선택 상품금액</span>
+				 <span class="my-3" id="totalPrice">0원</span>
 				</div>
 			</div>
 			<div class="d-flex align-items-center justify-content-between mt-5">
-				<button type="button" class="btn btn-dark btn-block mr-2" id="selectOrder">선택상품주문</button>
-				<button type="button" class="btn btn-outline-secondary btn-block m-0">선택상품삭제</button>
+				<button type="button" class="btn btn-dark btn-block mr-2" id="AllOrder">전체상품주문</button>
+				<button type="button" class="btn btn-outline-secondary btn-block m-0" id="selectOrder">선택상품주문</button>
 			</div>
 		</article>		
 	</section>
 	<script layout:fragment="script">
 		$(document).ready(function(){
 			
+			// 체크된 상품 총 가격
+			$(".cartChk").click(function(event) {
+				let total = 0;
+				$(".cartChk:checked").each(function() {
+					total += $(this).data("cart-price");
+				});
+				
+				total = comma(total);
+				
+				$('#totalPrice').text(total+"원");
+			});
+			
+			function comma(num) {
+			    num = String(num);
+			    return num.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			}
+			
+			
+			// 전체 결제창 이동
+			$("#AllOrder").on("click",function(){
+				location.href = "/nowjiu/order-all-cart";
+			})
+			// 선택 결제창 이동
 			$("#selectOrder").on("click",function(){
 				const checkedChks = document.querySelectorAll(".cartChk:Checked");
 				if(checkedChks.length == 0){
@@ -62,7 +85,7 @@
 				for(const checkedChk of checkedChks){
 					cartIdArr.push(checkedChk.value);
 		        }
-				location.href = "/nowjiu/order-cart?cartIdList=" + cartIdArr;
+				location.href = "/nowjiu/order-selete-cart?cartIdList=" + cartIdArr;
 			})
 			
 			

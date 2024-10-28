@@ -38,8 +38,12 @@ public class CartService {
 	public Cart getcart(int cartId) {
 		Optional<Cart> optionalCart = cartRespository.findById(cartId);
 		Cart cart = optionalCart.orElse(null);
-		
 		return cart;
+	}
+	
+	public List<Cart> orderGetUserCart(int userId) {
+		List<Cart> cartlist = cartRespository.findByUserId(userId);
+		return cartlist;
 	}
 	
 	

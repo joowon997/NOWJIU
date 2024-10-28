@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Table(name = "`OrderList`")
+@Table(name = "`orderList`")
 @Entity
 public class OrderList {
 
@@ -35,10 +35,7 @@ public class OrderList {
 	@Column(name = "userId")
 	private int userId;
 
-	@Column(name = "paymentId")
-	private int paymentId;
+	@Column(name = "orderId")
+	private int orderId;
 	
-	@Column(name = "createdAt")
-	@CreationTimestamp
-	private LocalDateTime createdAt;
 }
