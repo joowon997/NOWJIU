@@ -61,8 +61,9 @@ public class PaymentService {
 	// 결제후 비교
 	public Payment validatePayment(PaymentDto request) throws IamportResponseException, IOException {
 		Optional<PrePayment> optionalPrePayment = prePaymentRepository.findByMerchantUid(request.getMerchantUid());
-		PrePayment prePayment = optionalPrePayment.orElseThrow();
-        BigDecimal preAmount = prePayment.getAmount(); // DB에 저장된 결제요청 금액 
+		PrePayment prePayment = optionalPrePayment.orElse(null);
+		
+		BigDecimal preAmount = prePayment.getAmount(); // DB에 저장된 결제요청 금액 
         
         IamportResponse<Payment> iamportResponse = iamportClient.paymentByImpUid(request.getImpUid());
         BigDecimal paidAmount = iamportResponse.getResponse().getAmount(); // 사용자가 실제 결제한 금액

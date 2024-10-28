@@ -1,11 +1,14 @@
 package com.nowjoo.nowjiu.order;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nowjoo.nowjiu.order.dto.CartOrderDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
 import com.nowjoo.nowjiu.order.service.OrderService;
 
@@ -38,7 +41,22 @@ public class OrderController {
 	}
 	
 	@GetMapping("/order-cart")
-	public String orderCart(){
-		return "goods/order";
+	public String orderCart(
+			@RequestParam ("cartIdList") List<Integer> catrIdList
+			, Model model
+			, HttpSession session){
+		
+		int userId = (Integer)session.getAttribute("userId");
+		
+		CartOrderDto cartOrderDto = orderService.getcartOrder(catrIdList, userId);
+		
+		model.addAttribute("order", cartOrderDto);
+		
+		return "goods/orderCart";
+	}
+	
+	@GetMapping("/order-list")
+	public String orderList(){
+		return "goods/orderlist";
 	}
 }

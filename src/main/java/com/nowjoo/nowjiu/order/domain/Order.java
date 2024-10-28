@@ -1,9 +1,5 @@
 package com.nowjoo.nowjiu.order.domain;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,8 +24,6 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private int price;
-	
 	@Column(name = "merchantUid")
 	private String merchantUid;
 	
@@ -45,7 +39,7 @@ public class Order {
 	@Column(name = "userName")
 	private String userName;
 	
-	@Column(name = "goodsName")
+	@Column(name = "`goodsName`")
 	private String goodsName;
 	
 	private int amount;
@@ -53,13 +47,13 @@ public class Order {
 	private String phone;
 	private String address;
 	
-	private int post;
+	private int postcode;
 	
-	@Column(name = "createdAt")
-	@CreationTimestamp
-	private LocalDateTime createdAt;
-	
-	@Column(name = "updatedAt")
-	@UpdateTimestamp
-	private LocalDateTime updatedAt;
+//	@Column(name = "createdAt")
+//	@CreationTimestamp
+//	private LocalDateTime createdAt;
+//	
+//	@Column(name = "updatedAt")
+//	@UpdateTimestamp
+//	private LocalDateTime updatedAt;
 }

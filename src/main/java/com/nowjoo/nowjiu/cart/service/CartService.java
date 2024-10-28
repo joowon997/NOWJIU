@@ -34,6 +34,14 @@ public class CartService {
 		return cart;
 	}
 	
+	// 상품 장바구니 조회
+	public Cart getcart(int cartId) {
+		Optional<Cart> optionalCart = cartRespository.findById(cartId);
+		Cart cart = optionalCart.orElse(null);
+		
+		return cart;
+	}
+	
 	
 	
 	// 회원 장바구니 조회

@@ -43,17 +43,17 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr th:each="goods:${order.goodList}">
 								<td class="align-middle">
 									<div class="d-flex align-items-center">				
-										<img class="ml-5 my-2" width="150px" height="150px" alt="선택상품" th:src="${order.goodsImage}">
+										<img class="ml-5 my-2" width="150px" height="150px" alt="선택상품" th:src="${goods.image}">
 										<div class="ml-3">
-											<div id="goodName" th:data-good-name="${order.goodsName}" th:text="${order.goodsName}">상품명</div>
+											<div class="goodName" th:data-good-name="${goods.name}" th:text="${goods.name}">상품명</div>
 										</div>
 									</div>
 								</td>
 								<td class="align-middle">
-									<div class=".good-price" th:text="|${#numbers.formatInteger(order.goodsPrice, 3, 'COMMA')}원|">가격</div>
+									<div class="good-price" th:text="|${#numbers.formatInteger(goods.price, 3, 'COMMA')}원|">가격</div>
 								</td>
 							</tr>
 						</tbody>
@@ -62,7 +62,7 @@
 						<div class="mx-5 my-2">주문상품</div>
 						<div class="border-top border-dark d-flex justify-content-between mx-5">
 						 <span class="my-3">총 상품금액</span>
-						 <span id="total" th:data-total-price="${order.goodsPrice}" th:utext="|<b>${#numbers.formatInteger(order.goodsPrice, 3, 'COMMA')}</b>원|" class="my-3 display-5">000,000원</span>
+						 <span id="total" th:data-total-price="${order.totalPrice}" th:utext="|<b>${#numbers.formatInteger(order.totalPrice, 3, 'COMMA')}</b>원|" class="my-3 display-5">000,000원</span>
 						</div>
 					</div>
 				<!-- 주문상품 -->
@@ -84,8 +84,6 @@
 	</th:block>
 	<script layout:fragment="script">
 		$(document).ready(function(){
-			
-			
 			
 			
 			var IMP = window.IMP; 
@@ -110,7 +108,7 @@
 				
 				// iamport api
 				var name = $("#orderName").val();
-				var goods = $("#goodName").data("good-name");
+				var goods = $(".goodName").data("good-name");
 				var phone = $("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val();
 				var postcode = $("#zipCode").val();
 				var address = $("#address").val()+ "_" + $("#detailAddress").val();
