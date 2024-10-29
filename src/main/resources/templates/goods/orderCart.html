@@ -48,7 +48,7 @@
 									<div class="d-flex align-items-center">				
 										<img class="ml-5 my-2" width="150px" height="150px" alt="선택상품" th:src="${goods.image}">
 										<div class="ml-3">
-											<div class="goodName" th:data-good-name="${goods.name}" th:text="${goods.name}">상품명</div>
+											<div class="goodName" th:data-good-id="${goods.id}" th:data-good-name="${goods.name}" th:text="${goods.name}">상품명</div>
 										</div>
 									</div>
 								</td>
@@ -108,14 +108,20 @@
 				
 				// iamport api
 				var name = $("#orderName").val();
-				var goods = $(".goodName").data("good-name"); 
+				let goodsCount = 0;
+				var goodsIdArr = [];
 				$(".goodName").each(function(){
-					goods +=$(".goodName").data("good-name");
+					let goodsId = $(this).data("good-id");
+					goodsIdArr.push(goodsId);
+					goodsCount++;
 				});
+				goodsCount = goodsCount-1;
+				var goods = $(".goodName").data("good-name");
+				var goodsName = goods + " 외 " + goodsCount + "개";
 				var phone = $("#phone1").val()+"-"+$("#phone2").val()+"-"+$("#phone3").val();
 				var postcode = $("#zipCode").val();
 				var address = $("#address").val()+ "_" + $("#detailAddress").val();
-				
+				alert(goodsIdArr);
 				IMP.request_pay({
                     pg: "html5_inicis",		//KG이니시스 pg파라미터 값
                     pay_method: "card",		//결제 방법
@@ -140,24 +146,23 @@
                             var mesg = '결제가 완료되었습니다.';
                         	alert(mesg);
                             var orderInfo = {
-                                "merchantUid": rsp.merchant_uid,
-                                "userName": rsp.buyer_name,
-                                "payMethod": rsp.pay_method,
-                                "goodsName": rsp.name,
-                                "amount": rsp.paid_amount,
-                                "phone": rsp.buyer_tel,
-                                "address": rsp.buyer_addr,
-                                "postcode": rsp.buyer_postcode,
+	                    		"merchantUid": rsp.merchant_uid
+	                            , "payMethod": rsp.pay_method
+	                            , "userName": rsp.buyer_name
+	                            , "amount": rsp.paid_amount
+	                            , "phone": rsp.buyer_tel
+	                            , "address": rsp.buyer_addr
+	                            , "postcode": rsp.buyer_postcode
                             }
 
-                         	   $.ajax({
+                            $.ajax({
                                 type: "post"
                                 , url: "/api/order-save"
                                 , contentType: "application/json"
                                 , data: JSON.stringify(orderInfo)
                                 , success: function(data){
             						if(data.result == "success"){
-            							location.href = "/nowjiu/order-list";
+            							
             						}else{
             							alert("주문정보 저장 오류");
             						}
@@ -166,6 +171,39 @@
             						alert("주문정보 저장 에러");
             					}
                             });
+                        }).done(function (data) {
+                        	var mesg = '결제정보가 저장되었습니다.';
+                        	alert(mesg);
+                        	var orderListInfo = {
+                                    "merchantUid": rsp.merchant_uid,
+                                    "goodsId": goodsIdArr,
+                                }
+                        	$.ajax({
+                                type: "post"
+                                , url: "/api/cart-orderList-save"
+                                , contentType: "application/json"
+                                , data: JSON.stringify(orderListInfo)
+                                , success: function(data){
+            						if(data.result == "success"){
+            						}else{
+            							alert("주문정보 저장 오류");
+            						}
+            					}
+            					, error: function(){
+            						alert("주문정보 저장 에러");
+            					}
+                            });
+                        	
+                        }).done(function (data) {
+                        	$.ajax({
+                                url: "/api/payment/delete-prepare"
+                                ,method: "delete"
+                                ,contentType: "application/json"
+                                ,data: JSON.stringify({
+                                	merchantUid: merchantUid
+                                })
+                            });
+                        	location.href = "/nowjiu/order-list";
                         });
                     } else {
                     	alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);

@@ -14,6 +14,7 @@ import com.nowjoo.nowjiu.goods.serviece.GoodsService;
 import com.nowjoo.nowjiu.order.domain.Order;
 import com.nowjoo.nowjiu.order.domain.OrderList;
 import com.nowjoo.nowjiu.order.dto.CartOrderDto;
+import com.nowjoo.nowjiu.order.dto.CartOrderListDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
 import com.nowjoo.nowjiu.order.dto.OrderListDto;
 import com.nowjoo.nowjiu.order.respository.OrderListRepository;
@@ -63,6 +64,7 @@ public class OrderService {
 		
 		return order;
 	}
+	
 	// 주문목록 저장
 	public OrderList insertOrderList(OrderListDto request, int userId) {
 		// 상품 id
@@ -80,9 +82,35 @@ public class OrderService {
 									.orderId(orderId)
 									.build();
 		
+		cartService.deleteCartByUesrIdAndGoodsId(userId, goodId);
+		
 		return orderListRepository.save(orderList);
 	}
 	
+	// 다건 주문목록 저장
+		public OrderList insertCartOrderList(CartOrderListDto request, int userId) {
+			// 주문기록 id
+			String merchantUid = request.getMerchantUid();
+			Optional<Order> orderOptional = orderRepository.findByMerchantUid(merchantUid);
+			Order order = orderOptional.orElse(null);
+			
+			int orderId = order.getId();
+			
+			// 상품 id
+			List<Integer> goodIdList = request.getGoodsId();
+			OrderList orderList = null;
+			for(int goodId : goodIdList) {
+			orderList = OrderList.builder()
+								.goodsId(goodId)
+								.userId(userId)
+								.orderId(orderId)
+								.build();
+			
+			cartService.deleteCartByUesrIdAndGoodsId(userId, goodId);
+			orderListRepository.save(orderList);
+			}
+			return orderList;
+		}
 	
 	// 상세페이지 => 주문페이지 이동
 	public DirectOrderDto getDirectOrder(int goodsId, int userId) {

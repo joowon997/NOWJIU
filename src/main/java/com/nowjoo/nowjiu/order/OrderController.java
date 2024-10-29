@@ -70,7 +70,9 @@ public class OrderController {
 	}
 	
 	@GetMapping("/order-list")
-	public String orderList(){
+	public String orderList(
+			Model model
+			, HttpSession session){
 		return "goods/orderlist";
 	}
 }

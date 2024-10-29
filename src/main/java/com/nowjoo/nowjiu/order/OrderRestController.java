@@ -2,6 +2,8 @@ package com.nowjoo.nowjiu.order;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nowjoo.nowjiu.order.domain.Order;
 import com.nowjoo.nowjiu.order.domain.OrderList;
+import com.nowjoo.nowjiu.order.dto.CartOrderDto;
+import com.nowjoo.nowjiu.order.dto.CartOrderListDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
 import com.nowjoo.nowjiu.order.dto.OrderListDto;
 import com.nowjoo.nowjiu.order.service.OrderService;
@@ -57,6 +61,26 @@ public class OrderRestController {
 		int userId = (Integer)session.getAttribute("userId");
 		
 		OrderList orderList = orderService.insertOrderList(request, userId);
+		
+		Map<String, String> resultMap = new HashMap<>();
+		
+		if (orderList != null) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
+	
+	@PostMapping("/cart-orderList-save")
+	public Map<String, String> saveCartOrderList(
+			@RequestBody CartOrderListDto request
+			, HttpSession session)
+					throws IamportResponseException, IOException{
+		int userId = (Integer)session.getAttribute("userId");
+		
+		OrderList orderList = orderService.insertCartOrderList(request, userId);
 		
 		Map<String, String> resultMap = new HashMap<>();
 		

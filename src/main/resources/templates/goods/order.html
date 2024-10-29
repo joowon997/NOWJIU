@@ -140,13 +140,13 @@
                             var mesg = '결제가 완료되었습니다.';
                         	alert(mesg);
                             var orderInfo = {
-                                "merchantUid": rsp.merchant_uid,
-                                "payMethod": rsp.pay_method,
-                                "userName": rsp.buyer_name,
-                                "amount": rsp.paid_amount,
-                                "phone": rsp.buyer_tel,
-                                "address": rsp.buyer_addr,
-                                "postcode": rsp.buyer_postcode,
+                                "merchantUid": rsp.merchant_uid
+                                , "payMethod": rsp.pay_method
+                                , "userName": rsp.buyer_name
+                                , "amount": rsp.paid_amount
+                                , "phone": rsp.buyer_tel
+                                , "address": rsp.buyer_addr
+                                , "postcode": rsp.buyer_postcode
                             }
 
                          	   $.ajax({
@@ -189,6 +189,16 @@
             					}
                             });
                         	
+                        }).done(function (data) {
+                        	$.ajax({
+                                url: "/api/payment/delete-prepare"
+                                ,method: "delete"
+                                ,contentType: "application/json"
+                                ,data: JSON.stringify({
+                                	merchantUid: merchantUid
+                                })
+                            });
+                        	location.href = "/nowjiu/order-list";
                         });
                     } else {
                     	alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
