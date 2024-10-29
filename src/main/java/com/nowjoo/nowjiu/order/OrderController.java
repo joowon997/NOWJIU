@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nowjoo.nowjiu.order.dto.CartOrderDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
+import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
 import com.nowjoo.nowjiu.order.service.OrderService;
 
 import jakarta.servlet.http.HttpSession;
@@ -73,6 +74,12 @@ public class OrderController {
 	public String orderList(
 			Model model
 			, HttpSession session){
+		int userId = (Integer)session.getAttribute("userId");
+		
+		List<OrderHistoryDto> orderHistoryDto = orderService.getOrderHistroy(userId);
+		
+		model.addAttribute("order", orderHistoryDto);
+		
 		return "goods/orderlist";
 	}
 }

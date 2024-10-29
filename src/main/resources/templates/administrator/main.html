@@ -5,23 +5,45 @@
 	<section layout:fragment="contents">
 		<article class="mt-4 d-flex justify-content-center">
 			<div class="d-flex">
-				<div class="administrator-categori border border-secondary text-center mr-3">
+				<div id="member" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">등록회원</h2>
 					<h2 class="mt-5">00명</h2>
 				</div>          
-				<div class="administrator-categori border border-secondary text-center mr-3">
+				<div id="goods" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">등록상품</h2>
 					<h2 class="mt-5">00개</h2>
 				</div>          
-				<div class="administrator-categori border border-secondary text-center mr-3">
+				<div id="order" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">주문건수</h2>
 					<h2 class="mt-5">00개</h2>
 				</div>          
-				<div class="administrator-categori border border-secondary text-center mr-3">
+				<div id="review" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">리뷰</h2>
 					<h2 class="mt-5">00개</h2>
 				</div>          
 			</div>
 		</article>
 	</section>
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			
+			//회원관리 페이지 이동
+			$("#member").on("click", function(){
+				location.href = "/nowjiu/administrator/member";
+			});
+			//상품관리 페이지 이동
+			$("#goods").on("click", function(){
+				location.href = "/nowjiu/administrator/goods";
+			});
+			//주문 페이지 이동
+			$("#order").on("click", function(){
+				location.href = "/nowjiu/administrator/order";
+			});
+			//상품관리 페이지 이동
+			$("#review").on("click", function(){
+				location.href = "/nowjiu/administrator/review";
+			});
+			
+		});
+	</script>
 </html>

@@ -17,6 +17,8 @@ import com.nowjoo.nowjiu.order.dto.CartOrderDto;
 import com.nowjoo.nowjiu.order.dto.CartOrderListDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
 import com.nowjoo.nowjiu.order.dto.OrderListDto;
+import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
+import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
 import com.nowjoo.nowjiu.order.respository.OrderListRepository;
 import com.nowjoo.nowjiu.order.respository.OrderRepository;
 import com.nowjoo.nowjiu.payment.service.PaymentService;
@@ -46,7 +48,42 @@ public class OrderService {
 		this.orderListRepository = orderListRepository;
 	}
 
-	
+	public List<OrderHistoryDto> getOrderHistroy (int userId) {
+		List<OrderList> orderList = orderListRepository.findByUserId(userId);
+		List<OrderHistoryDto> orderHistoryDtoList = new ArrayList<>();
+		// 상품번호에 대한 상품 목록 생성
+		int orderId = 0;
+		for(OrderList list : orderList) {
+			int getorderId = list.getOrderId();
+			if(orderId != getorderId) {
+			orderId = getorderId;
+			Optional<Order> optionalOrder = orderRepository.findById(orderId);
+			Order order = optionalOrder.orElse(null);
+			
+			String merchantUid = order.getMerchantUid();
+			int totalPrice = order.getAmount();
+			String address = order.getAddress();
+			
+			List<OrderList> forGoodList = orderListRepository.findByOrderId(orderId);
+			List<Goods> goodsList = new ArrayList<>();
+			for(OrderList forlist : forGoodList) {
+				int goodsId = forlist.getGoodsId();
+				Goods goods = goodsService.getGoods(goodsId);
+				goodsList.add(goods);
+			}
+			
+			OrderHistoryDto orderHistoryDto = OrderHistoryDto.builder()
+													.merchantUid(merchantUid)
+													.totalPrice(totalPrice)
+													.address(address)
+													.goods(goodsList)
+													.build();
+			orderHistoryDtoList.add(orderHistoryDto);
+			}
+		}
+		return orderHistoryDtoList;
+		
+	};
 	
 	// 단건 주문 기록 저장
 	public Order insertOrder(Order request) {

@@ -40,7 +40,9 @@ public class AdministratorController {
 	}
 	
 	@GetMapping("/main")
-	public String administratorMain(){
+	public String administratorMain(
+			){
+		
 		return "administrator/main";
 	}
 	
