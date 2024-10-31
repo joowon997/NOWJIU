@@ -131,6 +131,12 @@
 	margin: 0 auto;
 }
 
+#reviewList{
+	width: 1300px;
+	flex-wrap: wrap;
+	margin: 130px;
+}
+
 #infoList{
 	width: 500px;
 	flex-wrap: wrap;
@@ -139,6 +145,26 @@
 .goods-card{
 	width: 300px;
 }
+
+.dropdown-content {
+  display: none;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 3px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 
 footer{
 	height: 150px;

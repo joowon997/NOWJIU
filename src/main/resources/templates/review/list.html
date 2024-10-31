@@ -4,142 +4,38 @@
 		layout:decorate="~{layouts/default}">
 		
 	<section layout:fragment="contents">
-		<h1 class="text-center">구매 후기</h1>
-		<article class="mt-5 d-flex justify-content-center">
+		<h1 class="text-center mt-5">구매 후기</h1>
+		<article id="reviewList" class="mt-5 d-flex">
 			<!-- 리뷰카드 -->
-				<div class="review-card mx-3">
-					<img class="review-card-img border" alt="리뷰사진" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
+				<div class="review-card mx-3 mb-3" th:each="review : ${reviews}">
+					<img th:if="${review.reviewImage != null}" class="review-card-img border" alt="리뷰사진" th:src="${review.reviewImage}">
+					<img th:unless="${review.reviewImage != null}" class="review-card-img border" alt="리뷰사진" th:src="${review.goodsImage}">
 					<div class="review-card-text border-bottom border-left border-right">
 						<div class="mx-2">
-							<div><b>사이즈 참고하세요</b></div>
-							<div>	
+							<div><b th:text="${review.reviewTitle}">사이즈 참고하세요</b></div>
+							<div th:text="${review.reviewContents}">	
 								디자인은 이쁘나 도복이… 매우 큽니다.. 
 								라펠도 매우 길구요.. 핏이 안사네요.. 
-								<br><span>★★★☆☆</span>
 							</div>
-							<div class="d-flex justify-content-between">
-								<span>user01</span><span>2024-09-29</span>
+						 	<div class="mt-2" th:switch="${review.reviewCount}">
+						    	<span th:case="5">★★★★★</span>
+						    	<span th:case="4">★★★★☆</span>
+						    	<span th:case="3">★★★☆☆</span>
+						    	<span th:case="2">★★☆☆☆</span>
+						    	<span th:case="1">★☆☆☆☆</span>
+						  	</div>
+							<div class="d-flex justify-content-between mt-1">
+								<span th:text="${review.reviewUserName}">user01</span><span th:text="${#temporals.format(review.reviewDate, 'yyyy년 MM월 dd일')}">2024-09-29</span>
 							</div>
 						</div>
 					</div>
 					<div class="review-card-goods d-flex align-items-center justify-content-around border-bottom border-left border-right">
-						<img width="60px" height="60px" alt="리뷰 상품" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-						<div class="text small">Jhood X Devilock '플래시' 주짓수 도복</div>
-					</div>
-				</div>
-			<!-- /리뷰카드 -->
-			<!-- 리뷰카드 -->
-				<div class="review-card mx-3">
-					<img class="review-card-img border" alt="리뷰사진" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-					<div class="review-card-text border-bottom border-left border-right">
-						<div class="mx-2">
-							<div><b>사이즈 참고하세요</b></div>
-							<div>	
-								디자인은 이쁘나 도복이… 매우 큽니다.. 
-								라펠도 매우 길구요.. 핏이 안사네요.. 
-								<br><span>★★★☆☆</span>
-							</div>
-							<div class="d-flex justify-content-between">
-								<span>user01</span><span>2024-09-29</span>
-							</div>
-						</div>
-					</div>
-					<div class="review-card-goods d-flex align-items-center justify-content-around border-bottom border-left border-right">
-						<img width="60px" height="60px" alt="리뷰 상품" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-						<div class="text small">Jhood X Devilock '플래시' 주짓수 도복</div>
-					</div>
-				</div>
-			<!-- /리뷰카드 -->
-			<!-- 리뷰카드 -->
-				<div class="review-card mx-3">
-					<img class="review-card-img border" alt="리뷰사진" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-					<div class="review-card-text border-bottom border-left border-right">
-						<div class="mx-2">
-							<div><b>사이즈 참고하세요</b></div>
-							<div>	
-								디자인은 이쁘나 도복이… 매우 큽니다.. 
-								라펠도 매우 길구요.. 핏이 안사네요.. 
-								<br><span>★★★☆☆</span>
-							</div>
-							<div class="d-flex justify-content-between">
-								<span>user01</span><span>2024-09-29</span>
-							</div>
-						</div>
-					</div>
-					<div class="review-card-goods d-flex align-items-center justify-content-around border-bottom border-left border-right">
-						<img width="60px" height="60px" alt="리뷰 상품" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-						<div class="text small">Jhood X Devilock '플래시' 주짓수 도복</div>
+						<img width="60px" height="60px" alt="리뷰 상품" th:src="${review.goodsImage}">
+						<div class="text small" th:text="${review.goodsname}">Jhood X Devilock '플래시' 주짓수 도복</div>
 					</div>
 				</div>
 			<!-- /리뷰카드 -->
 		</article>
-		<article class="mt-5 d-flex justify-content-center">
-			<!-- 리뷰카드 -->
-				<div class="review-card mx-3">
-					<img class="review-card-img border" alt="리뷰사진" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-					<div class="review-card-text border-bottom border-left border-right">
-						<div class="mx-2">
-							<div><b>사이즈 참고하세요</b></div>
-							<div>	
-								디자인은 이쁘나 도복이… 매우 큽니다.. 
-								라펠도 매우 길구요.. 핏이 안사네요.. 
-								<br><span>★★★☆☆</span>
-							</div>
-							<div class="d-flex justify-content-between">
-								<span>user01</span><span>2024-09-29</span>
-							</div>
-						</div>
-					</div>
-					<div class="review-card-goods d-flex align-items-center justify-content-around border-bottom border-left border-right">
-						<img width="60px" height="60px" alt="리뷰 상품" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-						<div class="text small">Jhood X Devilock '플래시' 주짓수 도복</div>
-					</div>
-				</div>
-			<!-- /리뷰카드 -->
-			<!-- 리뷰카드 -->
-				<div class="review-card mx-3">
-					<img class="review-card-img border" alt="리뷰사진" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-					<div class="review-card-text border-bottom border-left border-right">
-						<div class="mx-2">
-							<div><b>사이즈 참고하세요</b></div>
-							<div>	
-								디자인은 이쁘나 도복이… 매우 큽니다.. 
-								라펠도 매우 길구요.. 핏이 안사네요.. 
-								<br><span>★★★☆☆</span>
-							</div>
-							<div class="d-flex justify-content-between">
-								<span>user01</span><span>2024-09-29</span>
-							</div>
-						</div>
-					</div>
-					<div class="review-card-goods d-flex align-items-center justify-content-around border-bottom border-left border-right">
-						<img width="60px" height="60px" alt="리뷰 상품" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-						<div class="text small">Jhood X Devilock '플래시' 주짓수 도복</div>
-					</div>
-				</div>
-			<!-- /리뷰카드 -->
-			<!-- 리뷰카드 -->
-				<div class="review-card mx-3">
-					<img class="review-card-img border" alt="리뷰사진" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-					<div class="review-card-text border-bottom border-left border-right">
-						<div class="mx-2">
-							<div><b>사이즈 참고하세요</b></div>
-							<div>	
-								디자인은 이쁘나 도복이… 매우 큽니다.. 
-								라펠도 매우 길구요.. 핏이 안사네요.. 
-								<br><span>★★★☆☆</span>
-							</div>
-							<div class="d-flex justify-content-between">
-								<span>user01</span><span>2024-09-29</span>
-							</div>
-						</div>
-					</div>
-					<div class="review-card-goods d-flex align-items-center justify-content-around border-bottom border-left border-right">
-						<img width="60px" height="60px" alt="리뷰 상품" src="https://jiujitsukor.com/web/product/extra/big/202410/8630ba921a6f4affaf3e38251bd76482.jpg">
-						<div class="text small">Jhood X Devilock '플래시' 주짓수 도복</div>
-					</div>
-				</div>
-			<!-- /리뷰카드 -->
-		</article>
+		
 	</section>
 </html>

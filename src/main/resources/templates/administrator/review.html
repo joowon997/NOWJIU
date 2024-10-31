@@ -16,26 +16,32 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="align-middle text-center">155</td>
+						<tr th:each="review : ${reivews}">
+							<td class="align-middle text-center" th:text="${review.reviewId}">155</td>
 							<td class="text-center">
-								<img width="120px" height="120px" alt="선택상품" src="http://w.jiujitsukor.com/web/product/extra/big/202310/4f874ba31bb8f1a28f2e6b363919be08.png">
-								<div>AESTHETIC 셀렉트 주짓수 도복 (2 컬러)</div>
+								<img th:if="${review.reviewImage != null}" width="200px" height="200px" class="border" alt="리뷰사진" th:src="${review.reviewImage}">
+								<img th:unless="${review.reviewImage != null}" width="200px" height="200px" class="border" alt="리뷰사진" th:src="${review.goodsImage}">
+								<div th:text="${review.goodsname}">AESTHETIC 셀렉트 주짓수 도복 (2 컬러)</div>
 							</td>
 							<td class="align-middle">
 								<div>
-									<h5>제목</h5>
-									<div>리뷰내용</div>
-									<div>리뷰내용</div>
-									<div>별점</div>
+									<h5 th:text="${review.reviewTitle}">제목</h5>
+									<div th:text="${review.reviewContents}">리뷰내용</div>
+									<div class="mt-2" th:switch="${review.reviewCount}">
+								    	<span th:case="5">★★★★★</span>
+								    	<span th:case="4">★★★★☆</span>
+								    	<span th:case="3">★★★☆☆</span>
+								    	<span th:case="2">★★☆☆☆</span>
+								    	<span th:case="1">★☆☆☆☆</span>
+								  	</div>
 									<div class="d-flex justify-content-between text-secondary sm">
-										<div>user</div>
-										<div>2024-09-29</div>
+										<div th:text="${review.reviewUserName}">user</div>
+										<div th:text="${#temporals.format(review.reviewDate, 'yyyy년 MM월 dd일')}">2024-09-29</div>
 									</div>
 								</div>
 							</td>
 							<td class="align-middle">
-								<textarea class="col-12" rows="5"></textarea> <br>
+								<textarea class="col-12" rows="8"></textarea> <br>
 								<button class="btn btn-outline-secondary btn-block">답변달기</button>
 							</td>
 						</tr>

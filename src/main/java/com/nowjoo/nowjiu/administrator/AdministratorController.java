@@ -13,8 +13,10 @@ import com.nowjoo.nowjiu.administrator.dto.GoodsDto;
 import com.nowjoo.nowjiu.administrator.dto.MemberDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorService;
 import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
+import com.nowjoo.nowjiu.reivew.dto.ReviewDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorGoodsService;
 import com.nowjoo.nowjiu.administrator.service.AdministratorOrderService;
+import com.nowjoo.nowjiu.administrator.service.AdministratorReviewService;
 
 
 @Controller
@@ -24,15 +26,18 @@ public class AdministratorController {
 	private AdministratorService administratorService;
 	private AdministratorGoodsService administratorGoodsService;
 	private AdministratorOrderService administratorOrderService;
+	private AdministratorReviewService administratorReviewService;
 	
 	public AdministratorController(
 			AdministratorService administratorService
 			, AdministratorGoodsService administratorGoodsService
 			, AdministratorOrderService administratorOrderService
+			, AdministratorReviewService administratorReviewService
 			) {
 		this.administratorService = administratorService;
 		this.administratorGoodsService = administratorGoodsService;
 		this.administratorOrderService = administratorOrderService;
+		this.administratorReviewService = administratorReviewService;
 	}
 	
 	@GetMapping("/join")
@@ -102,7 +107,12 @@ public class AdministratorController {
 		return "administrator/order";
 	}
 	@GetMapping("/review")
-	public String administratorRiview(){
+	public String administratorRiview(
+			Model model){
+		List<ReviewDto> reviewDtoList = administratorReviewService.getOrderHistroy();
+		
+		model.addAttribute("reivews", reviewDtoList);
+		
 		return "administrator/review";
 	}
 }

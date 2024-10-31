@@ -47,7 +47,18 @@ public class OrderService {
 		this.orderRepository= orderRepository;
 		this.orderListRepository = orderListRepository;
 	}
-		
+		// 리뷰전 상품주문 유무
+		public boolean isOrder(int userId, int goodsId) {
+			Optional<OrderList> optionalList = orderListRepository.findByUserIdAndGoodsId(userId, goodsId);
+			OrderList orderList = optionalList.orElse(null);
+			
+			if (orderList != null) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+	
 	
 		// 모든 주문수 조회
 		public int getOrderCount(){

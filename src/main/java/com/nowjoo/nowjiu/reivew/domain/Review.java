@@ -29,10 +29,10 @@ public class Review {
 	private int id;
 	
 	@Column(name = "goodsId")
-	private String goodsId;
+	private int goodsId;
 	
 	@Column(name = "userId")
-	private String userId;
+	private int userId;
 
 	private String title;
 	private String contents;

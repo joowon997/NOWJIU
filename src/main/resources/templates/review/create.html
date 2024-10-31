@@ -8,75 +8,137 @@
 		<article class="mt-4 d-flex justify-content-center">
 			<div class="col-9">
 				<div class="border border-secondary d-flex align-items-center">
-					<img width="90px" height="90px" class="my-3 ml-3" alt="리뷰이미지" src="http://w.jiujitsukor.com/web/product/big/202408/62e85b5892de708f6312b5f11542d242.webp">
-					<button type="button" class="btn btn-outline-secondary mx-3">주문상품선택</button>
-					<div>상품명</div>
+					<img width="90px" height="90px" class="my-3 mx-3" alt="리뷰이미지" th:src="${goods.goodsImage}">
+					<div id="goodsName" th:data-goods-id="${goods.goodsId}" th:text="${goods.goodsName}">상품명</div>
 				</div>
 				<div>
 					<div class="border-secondary border-top border-bottom mt-4">
 						<div class="d-flex border-secondary border-top">
 							<h5 class="create-cartegori mx-3 mt-2">제목</h5>
 							<div class="border-left border-secondary col-10">
-								<input type="text" class="border-secondary ml-3 my-1 form-control">
+								<input id="titleInput" type="text" class="border-secondary ml-3 my-1 form-control">
 							</div>
 						</div>
 					</div>
 					<div class="d-flex border-secondary border-bottom">
 						<h5 class="create-cartegori mx-3 mt-2">평점</h5>
 						<div class="border-left border-secondary col-10">
-							<select class="border-secondary ml-3 my-1 form-control col-2">
-								<option>★★★★★</option>
-								<option>★★★★☆</option>
-								<option>★★★☆☆</option>
-								<option>★★☆☆☆</option>
-								<option>★☆☆☆☆</option>
+							<select id="reviewCount" class="border-secondary ml-3 my-1 form-control col-2">
+								<option value="5">★★★★★</option>
+								<option value="4">★★★★☆</option>
+								<option value="3">★★★☆☆</option>
+								<option value="2">★★☆☆☆</option>
+								<option value="1">★☆☆☆☆</option>
 							</select>
 						</div>
 					</div>
-					<div class="d-flex border-secondary border-bottom">
-						<textarea class="my-1 form-control"></textarea>
+					<div class="d-flex border-secondary border-bottom mt-2">
+						<textarea id="reviewInput" rows="10" class="form-control mb-1"></textarea>
 					</div>
 					<div class="d-flex border-secondary border-bottom">
-						<h5 class="create-cartegori mx-3 mt-2">첨부파일 1</h5>
+						<h5 class="create-cartegori mx-3 mt-2">첨부파일</h5>
 						<div class="border-left border-secondary">
-								<input type="file" class="ml-3 my-1">
-						</div>
-					</div>
-					<div class="d-flex border-secondary border-bottom">
-						<h5 class="create-cartegori mx-3 mt-2">첨부파일 2</h5>
-						<div class="border-left border-secondary">
-								<input type="file" class="ml-3 my-1">
-						</div>
-					</div>
-					<div class="d-flex border-secondary border-bottom">
-						<h5 class="create-cartegori mx-3 mt-2">첨부파일 3</h5>
-						<div class="border-left border-secondary">
-								<input type="file" class="ml-3 my-1">
-						</div>
-					</div>
-					<div class="d-flex border-secondary border-bottom">
-						<h5 class="create-cartegori mx-3 mt-2">첨부파일 4</h5>
-						<div class="border-left border-secondary">
-								<input type="file" class="ml-3 my-1">
-						</div>
-					</div>
-					<div class="border-secondary border-bottom">
-						<div class="d-flex border-secondary border-bottom">
-							<h5 class="create-cartegori mx-3 mt-2">첨부파일 5</h5>
-							<div class="border-left border-secondary">
-								<input type="file" class="ml-3 my-1">
-							</div>
+							<input type="file" class="ml-3 my-2" id="reviewImage">
+							<div id="imageArea"></div>
 						</div>
 					</div>
 					<div class="d-flex justify-content-between mt-3">
-						<button class="create-button btn btn-outline-secondary">목록</button>
+						<a class="create-button btn btn-outline-secondary" href="/nowjiu/review">목록</a>
 						<div class="d-flex">
-							<button class="create-button btn btn-dark mr-3">등록</button>
-							<button class="create-button btn btn-outline-secondary">취소</button>
+							<button id="addReviewBtn" class="create-button btn btn-dark mr-3">등록</button>
+							<a class="create-button btn btn-outline-secondary" href="/nowjiu/order-list">취소</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</article>
 	</section>
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			
+			// 리뷰 이미지 미리보기
+			$("#reviewImage").on("change",function(event){
+				$('#imageArea').empty();
+				
+				let file = event.target.files;
+									
+				let image = new Image();
+				let ImageTempUrl = window.URL.createObjectURL(file[0]);
+	
+				image.id = "mainImg";
+				image.src = ImageTempUrl;
+				image.alt = "메인 이미지";
+	
+				$("#imageArea").append(image);
+			});
+			
+			//상품 추가
+			$("#addReviewBtn").on("click",function(){
+				// 변수 설정
+				// 상품
+				let goodsId = $("#goodsName").data("goods-id");
+				// 제목
+				let title = $("#titleInput").val();
+				// 별점
+				let count = $("#reviewCount").val();
+				// 리뷰내용
+				let review = $("#reviewInput").val();
+				// 엔터값 변환
+				review = review.replace(/(?:\r\n|\r|\n)/g, '<br>');
+				
+				let image = $("#reviewImage")[0].files[0];
+				
+				//유효성 검사
+				//제목
+				if(title == ""){
+					alert("제목를 입력하세요");
+					return;
+				}
+				// 평점
+				if(count == ""){
+						alert("평점를 입력하세요");
+					return;
+				}
+				if(review == ""){
+					alert("리뷰를 작성하세요");
+					return;
+				}
+				// 파일
+				if(image == ""){
+					alert("파일을 선택하세요");
+					return;
+				}
+				// 상품 등록
+				let formData = new FormData();
+				formData.append("goodsId", goodsId);
+				formData.append("title", title);
+				formData.append("count", count);
+				formData.append("review", review);
+				formData.append("image", image);
+				
+				$.ajax({
+					type:"post"
+					, url: "/api/review-add"
+					, data: formData
+					, enctype: "multipart/form-data" // 파일 업로드 필수
+					, processData:false // 파일 업로드 필수
+					, contentType:false // 파일 업로드 필수
+					, success:function(data){
+						if(data.result == "success"){
+							alert("상품추가!!");
+                            location.href = "/nowjiu/review";
+						}else{
+							alert("리뷰 추가 실패!!");
+						}
+					}
+					, erorr: function(){
+						alert("리뷰 추가 에러!!");
+					}
+				});
+				
+				
+			});
+			
+		});
+	</script>
 </html>

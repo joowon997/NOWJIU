@@ -13,6 +13,7 @@ import com.nowjoo.nowjiu.administrator.repository.AdministratorRespository;
 import com.nowjoo.nowjiu.common.hash.HashingEncoder;
 import com.nowjoo.nowjiu.goods.serviece.GoodsService;
 import com.nowjoo.nowjiu.order.service.OrderService;
+import com.nowjoo.nowjiu.reivew.service.ReviewService;
 import com.nowjoo.nowjiu.user.domain.User;
 import com.nowjoo.nowjiu.user.service.UserService;
 
@@ -23,6 +24,7 @@ public class AdministratorService {
 	private UserService userService;
 	private GoodsService goodsService;
 	private OrderService orderService;
+	private ReviewService reviewService;
 	private HashingEncoder encoder;
 	
 	public AdministratorService(
@@ -31,24 +33,27 @@ public class AdministratorService {
 			, HashingEncoder encoder
 			, GoodsService goodsService
 			, OrderService orderService
+			, ReviewService reviewService
 			) {
 		this.administratorRespository = administratorRespository;
 		this.userService = userService;
 		this.encoder = encoder;
 		this.goodsService = goodsService;
 		this.orderService = orderService;
+		this.reviewService = reviewService;
 	}
 	// 메인페이지
 	public AdministratorMainDto mainCount() {
 		int userCount = userService.getUserCount();
 		int goodsCount = goodsService.getGoodsCount();
 		int orderCount = orderService.getOrderCount();
-		int reviewCount = userService.getUserCount();
+		int reviewCount = reviewService.getUserCount();
 		
 		AdministratorMainDto administratorMainDto = AdministratorMainDto.builder()
 																		.userCount(userCount)
 																		.goodsCount(goodsCount)
 																		.orderCount(orderCount)
+																		.reviewCount(reviewCount)
 																		.build();
 		return administratorMainDto;
 	}
