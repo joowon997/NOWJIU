@@ -10,10 +10,8 @@ import lombok.Getter;
 @Builder
 @Getter
 public class OrderHistoryDto {
+	private String userName;
 
-	private int orderId;
-	private int userId;
-	
 	private String merchantUid;
 	private int totalPrice;
 	private String address;

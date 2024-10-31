@@ -47,7 +47,63 @@ public class OrderService {
 		this.orderRepository= orderRepository;
 		this.orderListRepository = orderListRepository;
 	}
-
+		
+	
+		// 모든 주문수 조회
+		public int getOrderCount(){
+			List<Order> list = orderRepository.findAll();
+			int count = 0;
+			for(Order order : list) {
+				count ++;
+			}
+			return count;
+		}
+		
+		// 관리자 페이지 상품구매 목록
+		public List<OrderHistoryDto> getOrderHistroy () {
+			List<OrderList> orderList = orderListRepository.findAll();
+			List<OrderHistoryDto> orderHistoryDtoList = new ArrayList<>();
+			// 상품번호에 대한 상품 목록 생성
+			int orderId = 0;
+			for(OrderList list : orderList) {
+				int getorderId = list.getOrderId();
+				if(orderId != getorderId) {
+				orderId = getorderId;
+				Optional<Order> optionalOrder = orderRepository.findById(orderId);
+				Order order = optionalOrder.orElse(null);
+				
+				String merchantUid = order.getMerchantUid();
+				int totalPrice = order.getAmount();
+				String address = order.getAddress();
+				
+				List<OrderList> forGoodList = orderListRepository.findByOrderId(orderId);
+				List<Goods> goodsList = new ArrayList<>();
+				for(OrderList forlist : forGoodList) {
+					int goodsId = forlist.getGoodsId();
+					Goods goods = goodsService.getGoods(goodsId);
+					goodsList.add(goods);
+				}
+				
+				// 회원이름
+				int userId = list.getUserId();
+				User user = userService.getOneUser(userId);
+				String userName = user.getName();
+				
+				OrderHistoryDto orderHistoryDto = OrderHistoryDto.builder()
+														.userName(userName)
+														.merchantUid(merchantUid)
+														.totalPrice(totalPrice)
+														.address(address)
+														.goods(goodsList)
+														.build();
+				orderHistoryDtoList.add(orderHistoryDto);
+				}
+			}
+			return orderHistoryDtoList;
+			
+		};
+		
+	// 상품구매 목록
 	public List<OrderHistoryDto> getOrderHistroy (int userId) {
 		List<OrderList> orderList = orderListRepository.findByUserId(userId);
 		List<OrderHistoryDto> orderHistoryDtoList = new ArrayList<>();

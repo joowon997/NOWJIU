@@ -21,6 +21,7 @@ import com.nowjoo.nowjiu.goods.dto.GoodsListDto;
 import com.nowjoo.nowjiu.goods.respository.GoodsImageRepository;
 import com.nowjoo.nowjiu.goods.respository.GoodsRepository;
 import com.nowjoo.nowjiu.inventory.service.InventoryService;
+import com.nowjoo.nowjiu.user.domain.User;
 
 @Service
 public class GoodsService {
@@ -46,6 +47,16 @@ public class GoodsService {
 	// 모든 상품정보 조회
 	public List<Goods> getGoodsList(){
 		return goodsRepository.findAll();
+	}
+	
+	// 모든 제품수 조회
+	public int getGoodsCount(){
+		List<Goods> list = goodsRepository.findAll();
+		int count = 0;
+		for(Goods goods : list) {
+			count ++;
+		}
+		return count;
 	}
 	
 	// 하나정보 조회

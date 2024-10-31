@@ -26,6 +26,16 @@ public class UserService {
 		return userRepository.findAll();
 	}
 	
+	// 모든 회원수 조회
+	public int getUserCount(){
+		List<User> list = userRepository.findAll();
+		int getUserCount = 0;
+		for(User user : list) {
+			getUserCount ++;
+		}
+		return getUserCount;
+	}
+	
 	// 회원정보 한명 조회
 	public User getOneUser(int userId){
 		Optional<User> optionalUser = userRepository.findById(userId);

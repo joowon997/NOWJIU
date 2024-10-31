@@ -8,4 +8,7 @@ import lombok.Getter;
 public class AdministratorMainDto {
 
 	private int userCount;
+	private int goodsCount;
+	private int orderCount;
+	private int reviewCount;
 }

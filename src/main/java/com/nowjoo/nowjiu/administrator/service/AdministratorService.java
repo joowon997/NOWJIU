@@ -7,9 +7,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.nowjoo.nowjiu.administrator.domain.Administrator;
+import com.nowjoo.nowjiu.administrator.dto.AdministratorMainDto;
 import com.nowjoo.nowjiu.administrator.dto.MemberDto;
 import com.nowjoo.nowjiu.administrator.repository.AdministratorRespository;
 import com.nowjoo.nowjiu.common.hash.HashingEncoder;
+import com.nowjoo.nowjiu.goods.serviece.GoodsService;
+import com.nowjoo.nowjiu.order.service.OrderService;
 import com.nowjoo.nowjiu.user.domain.User;
 import com.nowjoo.nowjiu.user.service.UserService;
 
@@ -18,17 +21,38 @@ public class AdministratorService {
 
 	private AdministratorRespository administratorRespository;
 	private UserService userService;
+	private GoodsService goodsService;
+	private OrderService orderService;
 	private HashingEncoder encoder;
 	
 	public AdministratorService(
 			AdministratorRespository administratorRespository
 			, UserService userService
 			, HashingEncoder encoder
+			, GoodsService goodsService
+			, OrderService orderService
 			) {
 		this.administratorRespository = administratorRespository;
 		this.userService = userService;
 		this.encoder = encoder;
+		this.goodsService = goodsService;
+		this.orderService = orderService;
 	}
+	// 메인페이지
+	public AdministratorMainDto mainCount() {
+		int userCount = userService.getUserCount();
+		int goodsCount = goodsService.getGoodsCount();
+		int orderCount = orderService.getOrderCount();
+		int reviewCount = userService.getUserCount();
+		
+		AdministratorMainDto administratorMainDto = AdministratorMainDto.builder()
+																		.userCount(userCount)
+																		.goodsCount(goodsCount)
+																		.orderCount(orderCount)
+																		.build();
+		return administratorMainDto;
+	}
+	
 	// 관리자인지 아닌지
 		public boolean isAdministrator(int id, String name){
 			Optional<Administrator> optionalAdministrator = administratorRespository.findByIdAndName(id, name);

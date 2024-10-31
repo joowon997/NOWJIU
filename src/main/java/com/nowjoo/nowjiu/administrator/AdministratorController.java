@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nowjoo.nowjiu.administrator.dto.AddGoodsdDto;
+import com.nowjoo.nowjiu.administrator.dto.AdministratorMainDto;
 import com.nowjoo.nowjiu.administrator.dto.GoodsDto;
 import com.nowjoo.nowjiu.administrator.dto.MemberDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorService;
+import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorGoodsService;
+import com.nowjoo.nowjiu.administrator.service.AdministratorOrderService;
 
 
 @Controller
@@ -20,13 +23,16 @@ public class AdministratorController {
 	
 	private AdministratorService administratorService;
 	private AdministratorGoodsService administratorGoodsService;
+	private AdministratorOrderService administratorOrderService;
 	
 	public AdministratorController(
 			AdministratorService administratorService
 			, AdministratorGoodsService administratorGoodsService
+			, AdministratorOrderService administratorOrderService
 			) {
 		this.administratorService = administratorService;
 		this.administratorGoodsService = administratorGoodsService;
+		this.administratorOrderService = administratorOrderService;
 	}
 	
 	@GetMapping("/join")
@@ -41,7 +47,10 @@ public class AdministratorController {
 	
 	@GetMapping("/main")
 	public String administratorMain(
-			){
+			Model model){
+		AdministratorMainDto administratorMainDto = administratorService.mainCount();
+		
+		model.addAttribute("main", administratorMainDto);
 		
 		return "administrator/main";
 	}
@@ -83,7 +92,13 @@ public class AdministratorController {
 		return "administrator/board";
 	}
 	@GetMapping("/order")
-	public String administratorOrder(){
+	public String administratorOrder(
+			Model model){
+		
+		List<OrderHistoryDto> orderHistoryDto = administratorOrderService.getOrderHistroy();
+		
+		model.addAttribute("order", orderHistoryDto);
+		
 		return "administrator/order";
 	}
 	@GetMapping("/review")

@@ -9,14 +9,17 @@
 				<thead>
 					<tr>
 						<th>주문번호</th>
+						<th>회원명</th>
 						<th>상품명</th>
 						<th>배송지</th>
 						<th>결제금액</th>
+						<th>주문삭제</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="order: ${order}">
 						<td class="align-middle" th:text="${order.merchantUid}">주문번호</td>
+						<td class="align-middle" th:text="${order.userName}">회원명</td>
 						<td class="align-middle d-flex justify-content-around">
 							<div>
 								<div class="d-flex align-items-center" th:each="goods: ${order.goods}">				
@@ -33,6 +36,9 @@
 						</td>
 						<td class="align-middle">
 							<div th:utext="|<b>${#numbers.formatInteger(order.totalPrice, 0,'COMMA')}</b> 원|">결제금액</div>
+						</td>
+						<td class="align-middle">
+							<h1 class="order-delete-btn" th:data-merchantUid="${order.merchantUid}"><i class="bi bi-x-lg"></i></h1>
 						</td>
 					</tr>
 				</tbody>

@@ -13,6 +13,7 @@
 					<thead>
 						<tr>
 							<th>NO</th>
+							<th>상품ID</th>
 							<th>상품명</th>
 							<th>금액</th>
 							<th>재고</th>
@@ -20,7 +21,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="goods:${goodsList}">
+						<tr th:each="goods, goodsStat:${goodsList}">
+							<td th:text="${goodsStat.count}" class="align-middle">155</td>
 							<td th:text="${goods.goodsId}" class="align-middle">155</td>
 							<td>
 								<div class="d-flex align-items-center">

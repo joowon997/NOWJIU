@@ -7,15 +7,15 @@
 			<div class="d-flex">
 				<div id="member" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">등록회원</h2>
-					<h2 class="mt-5">00명</h2>
+					<h2 class="mt-5" th:text="|${main.userCount} 명|">00명</h2>
 				</div>          
 				<div id="goods" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">등록상품</h2>
-					<h2 class="mt-5">00개</h2>
+					<h2 class="mt-5" th:text="|${main.goodsCount} 개|">00개</h2>
 				</div>          
 				<div id="order" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">주문건수</h2>
-					<h2 class="mt-5">00개</h2>
+					<h2 class="mt-5" th:text="|${main.orderCount} 개|">00개</h2>
 				</div>          
 				<div id="review" class="administrator-categori border border-secondary text-center mr-3">
 					<h2 class="mt-5">리뷰</h2>
