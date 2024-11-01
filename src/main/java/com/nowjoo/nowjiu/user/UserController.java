@@ -10,11 +10,6 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/nowjiu")
 public class UserController {
 
-	@GetMapping("/main")
-	public String main(){
-		return "user/main";
-	}
-
 	@GetMapping("/login")
 	public String login(){
 		return "user/login";

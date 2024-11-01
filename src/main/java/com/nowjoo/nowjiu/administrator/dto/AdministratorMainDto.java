@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 public class AdministratorMainDto {
 
-	private int userCount;
-	private int goodsCount;
-	private int orderCount;
-	private int reviewCount;
+	private long userCount;
+	private long goodsCount;
+	private long orderCount;
+	private long reviewCount;
 }

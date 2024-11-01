@@ -13,7 +13,11 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer> {
 	public Optional<Goods> findByName(String name);
 	
 	public List<Goods> findByCategoryId(int categoryId);
+
+	public List<Goods> findByBrandId(int brandId);
 	
 	public int countByCategoryId(int categoryId);
+
+	public int countByBrandId(int brandId);
 	
 }

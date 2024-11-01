@@ -8,16 +8,11 @@
 				<img width="1300px" alt="배너이미지" src="https://jiujitsukor.com/web/upload/NNEditor/20240921/9505352600ff1ddc4f28ac8bd6506934.jpg">
 			</div>
 			<!-- 브랜드 로고모음 -->
-			<div class="brand">
-				<div class="d-flex justify-content-around mb-3">			
-					<div class="brand-logo rounded-lg bg-light text-center display-4">JHOOD</div>
-					<div class="brand-logo rounded-lg bg-light text-center display-4">VHTS</div>
-					<div class="brand-logo rounded-lg bg-light text-center display-4">AESTHETIC</div>
-				</div>
-				<div class="d-flex justify-content-around mb-3">			
-					<div class="brand-logo rounded-lg bg-light text-center display-4">JHOOD</div>
-					<div class="brand-logo rounded-lg bg-light text-center display-4">VHTS</div>
-					<div class="brand-logo rounded-lg bg-light text-center display-4">AESTHETIC</div>
+			<div class="brand d-flex justify-content-end">
+				<div class="mx-5" th:each = "brand:${main.brandList}">
+					<div class="brand-logo rounded-lg d-flex align-items-center justify-content-center" th:data-brand-id="${brand.id}">
+						<h3 th:text="${brand.name}">브랜드명</h3>
+					</div>
 				</div>
 			</div>
 			<!-- /브랜드 로고모음 -->
@@ -28,20 +23,6 @@
 				<!-- 카테고리 상품카드 -->
 					<div class="focus-info">
 						<img class="focus-kategorie mb-1" alt="분류" src="https://jiujitsukor.com/web/upload/NNEditor/20240604/19158f15e50e65e3b1a0a20b2f985519.jpg">
-						<div class="mt-2 d-flex align-items-center">
-							<img class="focus-goods" alt="제품" src="https://jiujitsukor.com/web/product/small/202403/614d1d21dc8f954e817cfbd6c0ce6d8d.png">
-							<div class="ml-3">
-								<span>VHTS '헴프 22' 주짓수 벨트</span><br>
-								<span>00,000원</span>
-							</div>
-						</div>
-						<div class="mt-2 d-flex align-items-center">
-							<img class="focus-goods" alt="제품" src="https://jiujitsukor.com/web/product/small/202403/614d1d21dc8f954e817cfbd6c0ce6d8d.png">
-							<div class="ml-3">
-								<span>VHTS '헴프 22' 주짓수 벨트</span><br>
-								<span>00,000원</span>
-							</div>
-						</div>
 						<div class="mt-2 d-flex align-items-center">
 							<img class="focus-goods" alt="제품" src="https://jiujitsukor.com/web/product/small/202403/614d1d21dc8f954e817cfbd6c0ce6d8d.png">
 							<div class="ml-3">
@@ -166,4 +147,17 @@
 			</div>		
 			<!-- /베스트 아이템 -->
 		</section>
+		<script layout:fragment="script">
+		$(document).ready(function(){
+			
+			// 브랜드제품이동 값 전달
+			$(".brand-logo").on("click", function(){
+				
+				let brandId = $(this).data("brand-id");
+				
+				location.href = "/nowjiu/brand-goods?brandId="+brandId;
+			});
+			
+		})
+	</script>
 </html>

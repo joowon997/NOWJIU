@@ -1,7 +1,5 @@
 package com.nowjoo.nowjiu.goods;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +27,18 @@ public class GoodsController {
 			, Model model){
 		
 		GoodsListDto goodsList = goodsService.getCategoryGoodsList(category);
+		
+		model.addAttribute("goods", goodsList);
+		
+		return "goods/list";
+	}
+
+	@GetMapping("/brand-goods")
+	public String brandGoodsList(
+			@RequestParam("brandId") int brandId
+			, Model model){
+		
+		GoodsListDto goodsList = goodsService.getBrandGoodsList(brandId);
 		
 		model.addAttribute("goods", goodsList);
 		

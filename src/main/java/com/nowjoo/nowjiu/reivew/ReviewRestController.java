@@ -3,6 +3,7 @@ package com.nowjoo.nowjiu.reivew;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,22 @@ public class ReviewRestController {
 				resultMap.put("result", "fail");
 			}
 			
+			return resultMap;
+		}
+		
+		// 리뷰 삭제
+		@DeleteMapping("/review-delete")
+		public Map<String, String> delectPost(
+				@RequestParam("reviewId") int reviewId
+				){
+			
+			Map<String, String> resultMap = new HashMap<>();
+			
+			if(reviewService.deleteReview(reviewId)) {
+				resultMap.put("result", "success");
+			}else {
+				resultMap.put("result", "fail");
+			}
 			return resultMap;
 		}
 }

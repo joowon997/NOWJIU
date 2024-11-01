@@ -1,5 +1,7 @@
 package com.nowjoo.nowjiu.brand.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +24,23 @@ public class BrandService {
 		this.brandRepository = brandRepository;
 	}
 	//모든 브랜드 조회
-	public List<Brand> allcategory(){
+	public List<Brand> allBrand(){
 		return brandRepository.findAll();
 	}
+
+	//모든 브랜드 조회
+	public List<Brand> getBrand(int count){
+		List<Brand> allBrand = brandRepository.findAll();
+		Collections.shuffle(allBrand);
+		List<Brand> allBrands = new ArrayList<>();
+		if(allBrand.size() > count) {
+			for (int i = 0; i < count; i++) {
+				allBrands.add(allBrand.get(i));
+			};
+		}
+		return allBrands;
+	}
+	
 	
 	// 브랜드 추가
 	public Brand addBrand(String name){

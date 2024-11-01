@@ -52,7 +52,7 @@ public class AdministratorGoodsService {
 	public AddGoodsdDto brandAndCategoryOption() {
 		
 		List<Category> categories = categoryService.allcategory();
-		List<Brand> brands = brandService.allcategory();
+		List<Brand> brands = brandService.allBrand();
 		
 		AddGoodsdDto addGoodsdDto = AddGoodsdDto.builder()
 										.categoryList(categories)

@@ -1,6 +1,5 @@
 package com.nowjoo.nowjiu.order.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +17,8 @@ import com.nowjoo.nowjiu.order.dto.CartOrderListDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
 import com.nowjoo.nowjiu.order.dto.OrderListDto;
 import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
-import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
 import com.nowjoo.nowjiu.order.respository.OrderListRepository;
 import com.nowjoo.nowjiu.order.respository.OrderRepository;
-import com.nowjoo.nowjiu.payment.service.PaymentService;
 import com.nowjoo.nowjiu.user.domain.User;
 import com.nowjoo.nowjiu.user.service.UserService;
 
@@ -61,12 +58,8 @@ public class OrderService {
 	
 	
 		// 모든 주문수 조회
-		public int getOrderCount(){
-			List<Order> list = orderRepository.findAll();
-			int count = 0;
-			for(Order order : list) {
-				count ++;
-			}
+		public long getOrderCount(){
+			long count = orderRepository.count();
 			return count;
 		}
 		

@@ -50,12 +50,8 @@ public class GoodsService {
 	}
 	
 	// 모든 제품수 조회
-	public int getGoodsCount(){
-		List<Goods> list = goodsRepository.findAll();
-		int count = 0;
-		for(Goods goods : list) {
-			count ++;
-		}
+	public long getGoodsCount(){
+		long count = goodsRepository.count();
 		return count;
 	}
 	
@@ -120,6 +116,31 @@ public class GoodsService {
 		
 		return listDto;
 	}
+	
+	// 브랜드 상품정보 조회
+		public GoodsListDto getBrandGoodsList(int brandId){
+			List<Goods> goodsList = goodsRepository.findByBrandId(brandId);
+			int count = goodsRepository.countByBrandId(brandId);
+			
+			List<GoodsDto> goodsDtoList = new ArrayList<>();
+			for(Goods goods:goodsList) {
+				
+				GoodsDto goodsDto = GoodsDto.builder()
+												.goodsId(goods.getId())
+												.mainImage(goods.getImage())
+												.name(goods.getName())
+												.price(goods.getPrice())
+												.build();
+				goodsDtoList.add(goodsDto);
+			}
+			
+			GoodsListDto listDto = GoodsListDto.builder()
+								.goodsList(goodsDtoList)
+								.count(count)
+								.build();
+			
+			return listDto;
+		}
 	
 	// 상품 삭제
 	public boolean deleteGoods(int goodsId) {

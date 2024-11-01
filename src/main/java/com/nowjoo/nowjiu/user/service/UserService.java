@@ -27,12 +27,8 @@ public class UserService {
 	}
 	
 	// 모든 회원수 조회
-	public int getUserCount(){
-		List<User> list = userRepository.findAll();
-		int getUserCount = 0;
-		for(User user : list) {
-			getUserCount ++;
-		}
+	public long getUserCount(){
+		long getUserCount = userRepository.count();
 		return getUserCount;
 	}
 	

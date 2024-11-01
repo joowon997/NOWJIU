@@ -11,8 +11,9 @@
 						<tr>
 							<th class="col-1">NO</th>
 							<th class="col-3">상품명</th>
-							<th class="col-5">리뷰내용</th>
+							<th class="col-4">리뷰내용</th>
 							<th class="col-3">답변</th>
+							<th class="col-1">삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -44,11 +45,55 @@
 								<textarea class="col-12" rows="8"></textarea> <br>
 								<button class="btn btn-outline-secondary btn-block">답변달기</button>
 							</td>
+							<td class="align-middle"><span data-toggle="modal" data-target="#moreModal" class="btn btn-danger more-btn" th:data-review-id="${review.reviewId}">삭제</span></td>
 						</tr>
 						
 					</tbody>
 				</table>
 			</div>
 		</article>
+		<!-- Modal -->
+			<div class="modal fade" id="moreModal">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content">
+			      <div class="modal-body text-center">
+			        <a id="deleteBtn">삭제하기</a>
+			      </div>
+			    </div>
+		      </div>
+		 	</div>
 	</section>
+	<script layout:fragment="script">
+		$(document).ready(function(){
+			// 상품삭제
+			$("#deleteBtn").on("click",function(){
+				let reviewId = $(this).data("goods-id");
+				
+				$.ajax({
+					type:"delete"
+					, url:"/api/review-delete"
+					, data:{"reviewId":reviewId}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						}else{
+							alert("삭제 실패");
+						}
+					}
+					, error:function(){
+						alert("삭제 오류");
+					}			
+				});	
+			});
+			
+			// 모달에 값 전달
+			$(".more-btn").on("click", function(){
+				
+				let goodsId = $(this).data("goods-id");
+				
+				$("#deleteBtn").data("goods-id", goodsId);
+			});
+			
+		})
+	</script>
 </html>

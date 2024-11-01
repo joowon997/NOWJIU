@@ -3,6 +3,7 @@ package com.nowjoo.nowjiu.reivew.service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,12 +39,8 @@ public class ReviewService {
 	}
 	
 	// 모든 리뷰수 조회
-		public int getUserCount(){
-			List<Review> reviewList = reviewRepository.findAll();
-			int getReviewCount = 0;
-			for(Review review : reviewList) {
-				getReviewCount ++;
-			}
+		public long getUserCount(){
+			long getReviewCount = reviewRepository.count();
 			return getReviewCount;
 		}
 	
@@ -90,6 +87,21 @@ public class ReviewService {
 														.build();
 		return reviewCreateDto;
 	}
+	
+	// 리뷰 삭제
+		public boolean deleteReview(int reviewId) {
+				
+				Optional<Review> optionalReview = reviewRepository.findById(reviewId);
+				Review review = optionalReview.orElse(null);
+				
+				if (review != null) {
+					FileManager.removeFile(review.getImage());
+					reviewRepository.delete(review);
+					return true;
+				}else {
+					return false;
+				}
+			}
 	
 	// 리뷰 추가
 		public boolean insertReview(

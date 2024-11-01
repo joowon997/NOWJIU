@@ -44,10 +44,10 @@ public class AdministratorService {
 	}
 	// 메인페이지
 	public AdministratorMainDto mainCount() {
-		int userCount = userService.getUserCount();
-		int goodsCount = goodsService.getGoodsCount();
-		int orderCount = orderService.getOrderCount();
-		int reviewCount = reviewService.getUserCount();
+		long userCount = userService.getUserCount();
+		long goodsCount = goodsService.getGoodsCount();
+		long orderCount = orderService.getOrderCount();
+		long reviewCount = reviewService.getUserCount();
 		
 		AdministratorMainDto administratorMainDto = AdministratorMainDto.builder()
 																		.userCount(userCount)
