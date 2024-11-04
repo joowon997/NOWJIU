@@ -14,7 +14,7 @@
 					</div>
 				</div>
 				<div>
-					<span class="small" th:if="${session.userId != null}" th:utext="|<b>${session.userName}</b> 회원님 환영합니다.|">사용자이름</span>
+					<span id="loginUser" th:data-login-id="${session.userId}" class="small" th:if="${session.userId != null}" th:utext="|<b>${session.userName}</b> 회원님 환영합니다.|">사용자이름</span>
 					<h1>
 						<a href="/nowjiu/logout"><i th:if="${session.userId != null}" class="bi bi-box-arrow-left text-dark"></i></a>
 						<a href="/nowjiu/login"><i th:unless="${session.userId != null}" class="bi bi-box-arrow-in-right text-dark"></i></a>
