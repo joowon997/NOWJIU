@@ -11,6 +11,7 @@ import lombok.Getter;
 @Builder
 public class GoodsListDto {
 
+	private String brandName;
 	private int count;
 	private List<GoodsDto> goodsList;
 	

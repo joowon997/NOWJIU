@@ -2,7 +2,6 @@ package com.nowjoo.nowjiu.goods.serviece;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -131,8 +130,9 @@ public class GoodsService {
 	
 	
 	// 카테고리 상품정보 조회
-	public GoodsListDto getCategoryGoodsList(String category){
-		int categoryId = categoryService.getCategory(category).getId();
+	public GoodsListDto getCategoryGoodsList(String categoryName){
+		Category category = categoryService.getCategory(categoryName);
+		int categoryId = category.getId();
 		
 		List<Goods> goodsList = goodsRepository.findByCategoryId(categoryId);
 		int count = goodsRepository.countByCategoryId(categoryId);
@@ -150,6 +150,7 @@ public class GoodsService {
 		}
 		
 		GoodsListDto listDto = GoodsListDto.builder()
+							.brandName(categoryName)
 							.goodsList(goodsDtoList)
 							.count(count)
 							.build();
