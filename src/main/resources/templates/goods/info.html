@@ -66,6 +66,7 @@
 			// 장바구니 추가
 			$("#cartBtn").on("click",function(){
                 let goodsId = $(this).data("goods-id");
+                let userId = $("#loginUser").data("login-id");
                 
                 $.ajax({
 					type:"post"
@@ -79,7 +80,11 @@
 						}
 					}
 					, error: function(){
-						alert("구매 에러");
+					 	if(userId == undefined){
+						       location.href = "/nowjiu/login";
+						}else{
+							alert("구매 에러");
+						}
 					}
 				});
                 

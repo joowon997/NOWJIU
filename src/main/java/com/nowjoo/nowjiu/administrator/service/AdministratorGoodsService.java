@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.nowjoo.nowjiu.administrator.dto.AddGoodsdDto;
 import com.nowjoo.nowjiu.administrator.dto.GoodsDto;
 import com.nowjoo.nowjiu.brand.domain.Brand;
+import com.nowjoo.nowjiu.brand.domain.BrandImage;
+import com.nowjoo.nowjiu.brand.dto.BrandDto;
 import com.nowjoo.nowjiu.brand.service.BrandService;
 import com.nowjoo.nowjiu.category.domian.Category;
 import com.nowjoo.nowjiu.category.service.CategoryService;
@@ -30,6 +32,31 @@ public class AdministratorGoodsService {
 		this.categoryService = categoryService;
 		this.goodsService = goodsService;
 	}
+	// 브랜드 리스트
+	public List<BrandDto> getBrandDtos(){
+		List<Brand> brandList = brandService.allBrand();
+		
+		List<BrandDto> brandDtosList = new ArrayList<>();
+		for(Brand brand : brandList) {
+			int brandId = brand.getId();
+			
+			BrandImage brandImage = brandService.getBrandIamge(brandId);
+			String Image = null;
+			if (brandImage != null) {
+				Image = brandImage.getImage();
+			}
+			
+			BrandDto brandDto = BrandDto.builder()
+										.brandId(brandId)
+										.brandName(brand.getName())
+										.brandImage(Image)
+										.build();
+			brandDtosList.add(brandDto);
+		}
+		return brandDtosList;
+	}
+	
+	
 	// 상품 리스트
 	public List<GoodsDto> getGoodsList(){
 		List<Goods> goodsList = goodsService.getGoodsList();

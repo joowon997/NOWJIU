@@ -12,6 +12,7 @@ import com.nowjoo.nowjiu.administrator.dto.AdministratorMainDto;
 import com.nowjoo.nowjiu.administrator.dto.GoodsDto;
 import com.nowjoo.nowjiu.administrator.dto.MemberDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorService;
+import com.nowjoo.nowjiu.brand.dto.BrandDto;
 import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
 import com.nowjoo.nowjiu.reivew.dto.ReviewDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorGoodsService;
@@ -114,5 +115,16 @@ public class AdministratorController {
 		model.addAttribute("reivews", reviewDtoList);
 		
 		return "administrator/review";
+	}
+	
+	@GetMapping("/goods-brand")
+	public String administratorBrand(
+			Model model){
+		
+		List<BrandDto> brandDtos = administratorGoodsService.getBrandDtos();
+		
+		model.addAttribute("brandList", brandDtos);
+		
+		return "administrator/brand";
 	}
 }

@@ -1,6 +1,7 @@
 package com.nowjoo.nowjiu.goods.serviece;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,6 @@ import com.nowjoo.nowjiu.goods.dto.GoodsListDto;
 import com.nowjoo.nowjiu.goods.respository.GoodsImageRepository;
 import com.nowjoo.nowjiu.goods.respository.GoodsRepository;
 import com.nowjoo.nowjiu.inventory.service.InventoryService;
-import com.nowjoo.nowjiu.user.domain.User;
 
 @Service
 public class GoodsService {
@@ -47,6 +47,23 @@ public class GoodsService {
 	// 모든 상품정보 조회
 	public List<Goods> getGoodsList(){
 		return goodsRepository.findAll();
+	}
+	
+	// 신상품순 상품정보 조회
+	public List<Goods> getNewGoodsList(int count){
+		List<Goods> goods = goodsRepository.findAllByOrderByIdDesc();
+
+		List<Goods> returnGoods = new ArrayList<>();
+		if (goods.size() > count) {
+			for (int i = 0; i < count; i++) {
+				returnGoods.add(goods.get(i));
+			}
+		}else {
+			for (int i = 0; i < goods.size(); i++) {
+				returnGoods.add(goods.get(i));
+			}
+		}
+		return returnGoods;
 	}
 	
 	// 모든 제품수 조회
@@ -89,6 +106,29 @@ public class GoodsService {
 								.build();
 		return goodsInfo;
 	}
+	// 메인 상품정보 조회
+		public List<Goods> getMainGoodsList(String categori){
+			Category category = categoryService.getCategory(categori);
+			
+			List<Goods> goods = new ArrayList<>();
+			
+			if (category != null) {
+				goods = goodsRepository.findByCategoryId(category.getId());
+				Collections.shuffle(goods);
+			}
+			List<Goods> returnGoods = new ArrayList<>();
+			if (goods.size() > 3) {
+				for (int i = 0; i < 3; i++) {
+					returnGoods.add(goods.get(i));
+				}
+			}else {
+				for (int i = 0; i < goods.size(); i++) {
+					returnGoods.add(goods.get(i));
+				}
+			}
+			return returnGoods;
+		}
+	
 	
 	// 카테고리 상품정보 조회
 	public GoodsListDto getCategoryGoodsList(String category){

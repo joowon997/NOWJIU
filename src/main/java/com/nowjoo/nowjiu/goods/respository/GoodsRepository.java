@@ -15,9 +15,12 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer> {
 	public List<Goods> findByCategoryId(int categoryId);
 
 	public List<Goods> findByBrandId(int brandId);
+
+	public List<Goods> findAllByOrderByIdDesc();
 	
 	public int countByCategoryId(int categoryId);
 
 	public int countByBrandId(int brandId);
+	
 	
 }
