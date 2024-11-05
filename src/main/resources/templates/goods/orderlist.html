@@ -21,12 +21,12 @@
 						<td class="align-middle d-flex justify-content-around">
 							<div>
 								<div class="d-flex align-items-center" th:each="goods: ${order.goods}">				
-									<img class="ml-5 my-2" width="150px" height="150px" alt="선택상품" th:src="${goods.image}">
+									<img class="ml-5 my-2" width="150px" height="150px" alt="선택상품" th:src="${goods.goodsImage}">
 									<div class="ml-3">
-										<div th:text="${goods.name}">상품명</div>
+										<div th:text="${goods.goodsName}">상품명</div>
 										<div class="d-flex mt-5">
-											<div th:utext="|${#numbers.formatInteger(goods.price, 0, 'COMMA')} 원|">상품가격</div>
-											<a class="ml-5 btn btn-outline-secondary  m-0" th:href="@{/nowjiu/review-create(goodsId=${goods.id})}">리뷰작성</a>
+											<div th:utext="|${#numbers.formatInteger(goods.goodsPrice, 0, 'COMMA')} 원|">상품가격</div>
+											<a th:if="${!goods.isReview}" class="ml-5 btn btn-outline-secondary  m-0" th:href="@{/nowjiu/review-create(goodsId=${goods.goodsId})}">리뷰작성</a>
 										</div>
 									</div>
 								</div>
