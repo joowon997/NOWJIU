@@ -26,7 +26,7 @@ public class PermissionInterceptor implements HandlerInterceptor{
 		// 로그인 페이지로 이동
 		if(userId == null) {
 			// /post 로 시작하는 path로 요청
-			if(uri.startsWith("/nowjiu/administrator") && !uri.equals("/nowjiu/administrator/login")) {
+			if(uri.startsWith("/nowjiu/administrator") && !uri.equals("/nowjiu/administrator/login") && !uri.equals("/nowjiu/administrator/join")) {
 				// redirect  
 				response.sendRedirect("/nowjiu/administrator/login");
 				return false;
