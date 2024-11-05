@@ -1,0 +1,64 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" 
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layouts/administrator}">
+		
+	<section layout:fragment="contents">
+		<h1 class="text-center mt-5">자유게시판</h1>
+		<article class="mt-4 d-flex justify-content-center">
+			<div class="col-9">
+				<div>
+					<div class="border-secondary border-top border-bottom mt-4">
+						<div class="d-flex border-secondary border-top">
+							<h5 class="review-create-cartegori mx-3 mt-2">제목</h5>
+							<div class="border-left border-secondary col-10">
+								<h5 class="ml-2 mt-2" th:text="${board.title}"></h5>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex border-secondary border-bottom">
+						<div class="board-area m-2" th:text="${board.title}"></div>
+					</div>
+					<div class="border-secondary border-bottom">
+						<div th:if="${board.image != null}" class="d-flex border-secondary border-bottom">
+							<h5 class="review-create-cartegori mx-3 mt-2">첨부파일</h5>
+							<div class="border-left border-secondary col-10">
+								<img alt="" th:src="${board.image}">
+							</div>
+						</div>
+					</div>
+					<div class="d-flex justify-content-between mt-3">
+						<a href="/nowjiu/administrator/board" class="btn btn-outline-secondary">목록</a>
+						<button th:data-board-id="${board.id}" id="deleteBtn" class="btn btn-danger mr-3">삭제</button>
+					</div>
+				</div>
+			</div>
+		</article>
+	</section>
+	<script layout:fragment="script">
+			$(document).ready(function(){
+				
+				$("#deleteBtn").on("click", function(){
+					let id = $(this).data("board-id");
+					$.ajax({
+						type:"delete"
+						, url: "/api/board/delete"
+						, data: {"id":id}
+						, success:function(data){
+							if(data.result == "success"){
+								location.href = "/nowjiu/board";
+							} else{
+								alert("메모 입력 실패!!");
+							}
+						}
+						, erorr: function(){
+							alert("메모 입력 에러!!");
+						}
+					})
+					
+					
+				});
+				
+				
+			});
+		</script>
+</html>

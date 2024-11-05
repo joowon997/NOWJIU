@@ -6,15 +6,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nowjoo.nowjiu.administrator.dto.AddGoodsdDto;
 import com.nowjoo.nowjiu.administrator.dto.AdministratorMainDto;
 import com.nowjoo.nowjiu.administrator.dto.GoodsDto;
 import com.nowjoo.nowjiu.administrator.dto.MemberDto;
 import com.nowjoo.nowjiu.administrator.service.AdministratorService;
+import com.nowjoo.nowjiu.board.domain.Board;
+import com.nowjoo.nowjiu.board.dto.BoardListDto;
 import com.nowjoo.nowjiu.brand.dto.BrandDto;
 import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
 import com.nowjoo.nowjiu.reivew.dto.ReviewDto;
+import com.nowjoo.nowjiu.administrator.service.AdministratorBoardService;
 import com.nowjoo.nowjiu.administrator.service.AdministratorGoodsService;
 import com.nowjoo.nowjiu.administrator.service.AdministratorOrderService;
 import com.nowjoo.nowjiu.administrator.service.AdministratorReviewService;
@@ -28,17 +32,20 @@ public class AdministratorController {
 	private AdministratorGoodsService administratorGoodsService;
 	private AdministratorOrderService administratorOrderService;
 	private AdministratorReviewService administratorReviewService;
+	private AdministratorBoardService administratorBoardService;
 	
 	public AdministratorController(
 			AdministratorService administratorService
 			, AdministratorGoodsService administratorGoodsService
 			, AdministratorOrderService administratorOrderService
 			, AdministratorReviewService administratorReviewService
+			, AdministratorBoardService administratorBoardService
 			) {
 		this.administratorService = administratorService;
 		this.administratorGoodsService = administratorGoodsService;
 		this.administratorOrderService = administratorOrderService;
 		this.administratorReviewService = administratorReviewService;
+		this.administratorBoardService = administratorBoardService;
 	}
 	
 	@GetMapping("/join")
@@ -94,9 +101,28 @@ public class AdministratorController {
 		return "administrator/inventory";
 	}
 	@GetMapping("/board")
-	public String administratorBoard(){
+	public String administratorBoard(
+			Model model){
+		
+		List<BoardListDto> boards = administratorBoardService.getBoradList();
+		
+		model.addAttribute("boardList", boards);
+		
 		return "administrator/board";
 	}
+	@GetMapping("/board-detail")
+	public String boardDetail(
+			@RequestParam("boradId") int id
+			, Model model){
+		
+		Board board = administratorBoardService.getBoard(id);
+		
+		model.addAttribute("board", board);
+		
+		return "administrator/boardDetail";
+	}
+	
+	
 	@GetMapping("/order")
 	public String administratorOrder(
 			Model model){

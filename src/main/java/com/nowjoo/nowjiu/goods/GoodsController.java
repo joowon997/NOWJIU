@@ -33,6 +33,18 @@ public class GoodsController {
 		return "goods/list";
 	}
 
+	@GetMapping("/goods-search")
+	public String searchGoodsList(
+			@RequestParam("search") String search
+			, Model model){
+		
+		GoodsListDto goodsList = goodsService.getSearchGoodsList(search);
+		
+		model.addAttribute("goods", goodsList);
+		
+		return "goods/list";
+	}
+
 	@GetMapping("/brand-goods")
 	public String brandGoodsList(
 			@RequestParam("brandId") int brandId

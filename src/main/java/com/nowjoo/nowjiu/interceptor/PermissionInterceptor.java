@@ -41,6 +41,11 @@ public class PermissionInterceptor implements HandlerInterceptor{
 				response.sendRedirect("/nowjiu/login");
 				return false;
 			}
+			if(uri.startsWith("/nowjiu/board-create")) {
+				// redirect  
+				response.sendRedirect("/nowjiu/login");
+				return false;
+			}
 			
 		} else {  // 로그인 된 상태 
 			// 사용자와 관련된 페이지로 접근을 막고

@@ -105,7 +105,9 @@ public class GoodsService {
 								.build();
 		return goodsInfo;
 	}
-	// 메인 상품정보 조회
+
+	
+	// 메인페이지 상품정보 조회
 		public List<Goods> getMainGoodsList(String categori){
 			Category category = categoryService.getCategory(categori);
 			
@@ -126,37 +128,64 @@ public class GoodsService {
 				}
 			}
 			return returnGoods;
-		}
+		}			
 	
-	
-	// 카테고리 상품정보 조회
-	public GoodsListDto getCategoryGoodsList(String categoryName){
-		Category category = categoryService.getCategory(categoryName);
-		int categoryId = category.getId();
-		
-		List<Goods> goodsList = goodsRepository.findByCategoryId(categoryId);
-		int count = goodsRepository.countByCategoryId(categoryId);
-		
-		List<GoodsDto> goodsDtoList = new ArrayList<>();
-		for(Goods goods:goodsList) {
+	// 검색 상품정보 조회
+		public GoodsListDto getSearchGoodsList(String search){
+			List<Goods> goodsList = goodsRepository.findByNameContaining(search);
 			
-			GoodsDto goodsDto = GoodsDto.builder()
+			int count = goodsRepository.countByNameContaining(search);
+			
+			List<GoodsDto> goodsDtoList = new ArrayList<>();
+			for(Goods goods:goodsList) {
+				
+				GoodsDto goodsDto = GoodsDto.builder()
+												.goodsId(goods.getId())
+												.mainImage(goods.getImage())
+												.name(goods.getName())
+												.price(goods.getPrice())
+												.build();
+				goodsDtoList.add(goodsDto);
+			}
+		
+			GoodsListDto listDto = GoodsListDto.builder()
+								.search(search)
+								.goodsList(goodsDtoList)
+								.count(count)
+								.build();
+			
+			return listDto;
+			
+		}
+		
+	// 카테고리 상품정보 조회
+		public GoodsListDto getCategoryGoodsList(String categoryName){
+			Category category = categoryService.getCategory(categoryName);
+			int categoryId = category.getId();
+			
+			List<Goods> goodsList = goodsRepository.findByCategoryId(categoryId);
+			int count = goodsRepository.countByCategoryId(categoryId);
+			
+			List<GoodsDto> goodsDtoList = new ArrayList<>();
+			for(Goods goods:goodsList) {
+				
+				GoodsDto goodsDto = GoodsDto.builder()
 											.goodsId(goods.getId())
 											.mainImage(goods.getImage())
 											.name(goods.getName())
 											.price(goods.getPrice())
 											.build();
-			goodsDtoList.add(goodsDto);
+				goodsDtoList.add(goodsDto);
+			}
+		
+			GoodsListDto listDto = GoodsListDto.builder()
+								.categori(categoryName)
+								.goodsList(goodsDtoList)
+								.count(count)
+								.build();
+			
+			return listDto;
 		}
-		
-		GoodsListDto listDto = GoodsListDto.builder()
-							.brandName(categoryName)
-							.goodsList(goodsDtoList)
-							.count(count)
-							.build();
-		
-		return listDto;
-	}
 	
 	// 브랜드 상품정보 조회
 		public GoodsListDto getBrandGoodsList(int brandId){

@@ -17,23 +17,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>155</td>
-								<td><a href="#">오늘 할일</a></td>
-								<td>user01</td>
-								<td>2024-09-10</td>
-							</tr>
-							<tr>
-								<td>155</td>
-								<td><a href="#">오늘 할일</a></td>
-								<td>user01</td>
-								<td>2024-09-10</td>
-							</tr>
-							<tr>
-								<td>155</td>
-								<td><a href="#">오늘 할일</a></td>
-								<td>user01</td>
-								<td>2024-09-10</td>
+							<tr th:each="board : ${boardList}">
+								<td th:text="${board.boardId}">155</td>
+								<td><a th:href="@{/nowjiu/board-detail(boradId=${board.boardId})}" th:text="${board.title}">오늘 할일</a></td>
+								<td th:text="${board.userName}">user01</td>
+								<td th:text="${#temporals.format(board.boardCreate, 'yyyy-MM-dd')}">2024-09-10</td>
 							</tr>
 						</tbody>
 					</table>
@@ -46,7 +34,7 @@
 							<input type="text" class="form-control col-6 mx-1">
 							<button type="button" class="btn btn-outline-secondary col-2">검색</button>
 						</div>
-						<a class="btn btn-dark col-1" href="#">작성</a>
+						<a class="btn btn-dark col-1" href="/nowjiu/board-create">작성</a>
 					</div>
 				</div>
 			</div>

@@ -12,6 +12,10 @@ import lombok.Getter;
 public class GoodsListDto {
 
 	private String brandName;
+	private String categori;
+	private String search;
+	
+	
 	private int count;
 	private List<GoodsDto> goodsList;
 	

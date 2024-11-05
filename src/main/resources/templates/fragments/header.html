@@ -4,14 +4,12 @@
 			<div class="header-top d-flex align-items-end justify-content-around">
 				<h1 class="logo font-weight-bold" id="logoBtn">NOWJIU</h1>
 				<div class="search-bar">
-					<div class="input-group">
-						<input type="text" class="form-control">
+					<form class="input-group" id="searchForm">
+						<input id="searchInput" type="text" class="form-control">
 						<div class="input-group-append" >
-							<span class="input-group-text">
-						    	<i class="bi bi-search"></i>
-							</span>
+					    	<button id="searchBtn" class="btn btn-secondary"><i class="bi bi-search"></i></button>
 						</div>
-					</div>
+					</form>
 				</div>
 				<div>
 					<span id="loginUser" th:data-login-id="${session.userId}" class="small" th:if="${session.userId != null}" th:utext="|<b>${session.userName}</b> 회원님 환영합니다.|">사용자이름</span>
@@ -51,6 +49,23 @@
 				$("#logoBtn").on("click", function(){
 					location.href = "/nowjiu/main"	
 				});
+				
+				$("#searchForm").on("submit", function(e){
+					// 기본기능 실행방지
+					e.preventDefault();
+					
+					// 변수 설정
+					let search = $("#searchInput").val();
+				
+					// 유효성 검사
+					if(search == ""){
+						alert("비밀번호를 입력하세요");
+						return;
+					}
+					
+					location.href = "/nowjiu/goods-search?search=" + search;
+				});
+				
 			});
 		</script>
 </html>

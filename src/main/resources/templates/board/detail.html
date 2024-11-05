@@ -3,7 +3,7 @@
 		layout:decorate="~{layouts/default}">
 		
 	<section layout:fragment="contents">
-		<h1 class="text-center mt-5">자유게시판 작성</h1>
+		<h1 class="text-center mt-5">자유게시판</h1>
 		<article class="mt-4 d-flex justify-content-center">
 			<div class="col-9">
 				<div>
@@ -11,24 +11,24 @@
 						<div class="d-flex border-secondary border-top">
 							<h5 class="review-create-cartegori mx-3 mt-2">제목</h5>
 							<div class="border-left border-secondary col-10">
-								<input id="inputTitle" type="text" class="border-secondary ml-3 my-1 form-control">
+								<h5 class="ml-2 mt-2" th:text="${board.title}"></h5>
 							</div>
 						</div>
 					</div>
 					<div class="d-flex border-secondary border-bottom">
-						<textarea id="inputContents" class="from-control col-12 my-2" rows="8"></textarea>
+						<div class="board-area m-2" th:text="${board.title}"></div>
 					</div>
 					<div class="border-secondary border-bottom">
-						<div class="d-flex border-secondary border-bottom">
+						<div th:if="${board.image != null}" class="d-flex border-secondary border-bottom">
 							<h5 class="review-create-cartegori mx-3 mt-2">첨부파일</h5>
 							<div class="border-left border-secondary col-10">
-								<input type="file" class="ml-3 my-2" id="inputFile">
+								<img alt="" th:src="${board.image}">
 							</div>
 						</div>
 					</div>
 					<div class="d-flex justify-content-between mt-3">
 						<a href="/nowjiu/board" class="btn btn-outline-secondary">목록</a>
-						<button id="saveBtn" class="btn btn-dark mr-3">등록</button>
+						<button th:if="${session.userId == board.userId}" th:data-board-id="${board.id}" id="deleteBtn" class="btn btn-danger mr-3">삭제</button>
 					</div>
 				</div>
 			</div>
@@ -37,38 +37,12 @@
 	<script layout:fragment="script">
 			$(document).ready(function(){
 				
-				$("#saveBtn").on("click", function(){
-					
-					//변수 설정
-					let title = $("#inputTitle").val();
-					let contents = $("#inputContents").val();
-				
-					let file = $("#inputFile")[0].files[0];
-					
-					// 유효성 검사
-					if(title == ""){
-						alert("제목을 입력하세요");
-						return;
-					}
-					if(contents == ""){
-						alert("메모를 입력하세요");
-						return;
-					}
-					
-					// ajax 통신
-					
-					let formData = new FormData();
-					formData.append("title", title);
-					formData.append("contents", contents);
-					formData.append("imageFile", file);
-					
+				$("#deleteBtn").on("click", function(){
+					let id = $(this).data("board-id");
 					$.ajax({
-						type:"post"
-						, url: "/api/board/create"
-						, data: formData
-						, enctype: "multipart/form-data" // 파일 업로드 필수
-						, processData:false // 파일 업로드 필수
-						, contentType:false // 파일 업로드 필수
+						type:"delete"
+						, url: "/api/board/delete"
+						, data: {"id":id}
 						, success:function(data){
 							if(data.result == "success"){
 								location.href = "/nowjiu/board";

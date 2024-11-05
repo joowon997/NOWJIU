@@ -5,7 +5,9 @@
 		
 	<section layout:fragment="contents">
 		<article>
-			<h1 class="text-center mt-5">주짓수 도복</h1>
+			<h1 th:if="${goods.categori != null}" class="text-center mt-5" th:text="|주짓수 ${goods.categori}|">주짓수 도복</h1>
+			<h1 th:if="${goods.brandName != null}" class="text-center mt-5" th:text="|${goods.brandName}의 제품|">주짓수 도복</h1>
+			<h1 th:if="${goods.search != null}" class="text-center mt-5" th:text="|`${goods.search}` 검색기록|">주짓수 도복</h1>
 			<div class="goods-list-kategorie d-flex justify-content-between mt-4 ml-5">
 				<span>TOTAL <b th:text="${goods.count}">000</b> ITEM</span>
 				<select class="form-control col-2">

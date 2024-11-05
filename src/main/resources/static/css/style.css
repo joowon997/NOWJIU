@@ -103,6 +103,9 @@
 .create-button{
 	width: 120px;
 }
+.board-area{
+	height: 250px;
+}
 
 .list{
 	width: 1000px;
