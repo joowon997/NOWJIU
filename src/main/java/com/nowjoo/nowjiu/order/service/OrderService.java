@@ -15,10 +15,12 @@ import com.nowjoo.nowjiu.order.domain.OrderList;
 import com.nowjoo.nowjiu.order.dto.CartOrderDto;
 import com.nowjoo.nowjiu.order.dto.CartOrderListDto;
 import com.nowjoo.nowjiu.order.dto.DirectOrderDto;
+import com.nowjoo.nowjiu.order.dto.OrderGoodsDto;
 import com.nowjoo.nowjiu.order.dto.OrderListDto;
 import com.nowjoo.nowjiu.order.dto.OrderHistoryDto;
 import com.nowjoo.nowjiu.order.respository.OrderListRepository;
 import com.nowjoo.nowjiu.order.respository.OrderRepository;
+import com.nowjoo.nowjiu.reivew.service.ReviewService;
 import com.nowjoo.nowjiu.user.domain.User;
 import com.nowjoo.nowjiu.user.service.UserService;
 
@@ -30,6 +32,7 @@ public class OrderService {
 	private GoodsService goodsService;
 	private OrderRepository orderRepository;
 	private	OrderListRepository orderListRepository;
+	private ReviewService reviewService;
 	
 	public OrderService(
 			CartService cartService
@@ -37,12 +40,14 @@ public class OrderService {
 			, GoodsService goodsService
 			, OrderRepository orderRepository
 			, OrderListRepository orderListRepository
+			, ReviewService reviewService
 			) {
 		this.cartService = cartService;
 		this.userService = userService;
 		this.goodsService = goodsService;
 		this.orderRepository= orderRepository;
 		this.orderListRepository = orderListRepository;
+		this.reviewService = reviewService;
 	}
 		// 리뷰전 상품주문 유무
 		public boolean isOrder(int userId, int goodsId) {
@@ -81,11 +86,18 @@ public class OrderService {
 				String address = order.getAddress();
 				
 				List<OrderList> forGoodList = orderListRepository.findByOrderId(orderId);
-				List<Goods> goodsList = new ArrayList<>();
+				List<OrderGoodsDto> goodsList = new ArrayList<>();
 				for(OrderList forlist : forGoodList) {
 					int goodsId = forlist.getGoodsId();
 					Goods goods = goodsService.getGoods(goodsId);
-					goodsList.add(goods);
+					
+					OrderGoodsDto orderGoodsDto = OrderGoodsDto.builder()
+																.goodsImage(goods.getImage())
+																.goodsName(goods.getName())
+																.goodsPrice(goods.getPrice())
+																.build();
+					
+					goodsList.add(orderGoodsDto);
 				}
 				
 				// 회원이름
@@ -107,7 +119,7 @@ public class OrderService {
 			
 		};
 		
-	// 상품구매 목록
+	// 고객 상품구매 목록
 	public List<OrderHistoryDto> getOrderHistroy (int userId) {
 		List<OrderList> orderList = orderListRepository.findByUserId(userId);
 		List<OrderHistoryDto> orderHistoryDtoList = new ArrayList<>();
@@ -125,12 +137,24 @@ public class OrderService {
 			String address = order.getAddress();
 			
 			List<OrderList> forGoodList = orderListRepository.findByOrderId(orderId);
-			List<Goods> goodsList = new ArrayList<>();
+			List<OrderGoodsDto> goodsList = new ArrayList<>();
 			for(OrderList forlist : forGoodList) {
 				int goodsId = forlist.getGoodsId();
 				Goods goods = goodsService.getGoods(goodsId);
-				goodsList.add(goods);
+				
+				Boolean isReview = reviewService.isReview(userId, goodsId);
+				
+				OrderGoodsDto orderGoodsDto = OrderGoodsDto.builder()
+														.goodsId(goodsId)
+														.goodsImage(goods.getImage())
+														.goodsName(goods.getName())
+														.goodsPrice(goods.getPrice())
+														.isReview(isReview)
+														.build();
+												
+				goodsList.add(orderGoodsDto);
 			}
+			
 			
 			OrderHistoryDto orderHistoryDto = OrderHistoryDto.builder()
 													.merchantUid(merchantUid)

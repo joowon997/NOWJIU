@@ -43,6 +43,18 @@ public class ReviewService {
 			long getReviewCount = reviewRepository.count();
 			return getReviewCount;
 		}
+		
+	// 리뷰 작성 유무
+		public boolean isReview(int userId, int goodsId) {
+			Optional<Review> optionalReview = reviewRepository.findByUserIdAndGoodsId(userId, goodsId);
+			Review review = optionalReview.orElse(null);
+			
+			if (review != null) {
+				return true;
+			}else {
+				return false;
+			}
+		}
 	
 	// 리뷰페이지
 	public List<ReviewDto> getReviewList() {

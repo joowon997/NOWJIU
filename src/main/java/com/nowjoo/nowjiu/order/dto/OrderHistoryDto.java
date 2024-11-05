@@ -15,5 +15,7 @@ public class OrderHistoryDto {
 	private String merchantUid;
 	private int totalPrice;
 	private String address;
-	private List<Goods> goods;
+	
+	private List<OrderGoodsDto> goods;
+	
 }
